@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>AYAA Admin Panel</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --sb:#13161b;--sb2:#1c1f26;--top:#fff;--bg:#eef0f4;
+  --accent:#4f46e5;--accent2:#4338ca;--green:#059669;--red:#dc2626;--gold:#d97706;
+  --text:#111827;--muted:#6b7280;--border:#e5e7eb;
+  --sh:0 1px 3px rgba(0,0,0,.1);--shlg:0 8px 24px rgba(0,0,0,.15);
+  --r:7px;--th:52px;--sw:268px;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13.5px;color:var(--text);background:var(--bg);overflow:hidden;height:100vh}
+button{cursor:pointer;font:inherit;border:none;background:none}
+input,textarea,select{font:inherit}
+svg{display:inline-block;vertical-align:middle;flex-shrink:0}
+
+/* Login */
+#login-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0d0f14,#1e2130);z-index:900}
+.lc{background:#fff;border-radius:14px;padding:2.5rem;width:360px;box-shadow:0 24px 64px rgba(0,0,0,.5);text-align:center}
+.lc-logo{font-size:1.9rem;font-weight:800;color:var(--accent);letter-spacing:-1px}
+.lc-logo small{display:block;font-size:.85rem;font-weight:400;color:var(--muted);margin-top:-2px}
+.lc h2{font-size:1rem;font-weight:500;color:var(--muted);margin:1.25rem 0}
+.lc input{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:8px;font-size:.95rem;margin-bottom:.9rem;outline:none;transition:border-color .2s}
+.lc input:focus{border-color:var(--accent)}
+.lc-btn{width:100%;padding:.8rem;background:var(--accent);color:#fff;border-radius:8px;font-size:.95rem;font-weight:600;transition:background .2s}
+.lc-btn:hover{background:var(--accent2)}
+.lc-err{color:var(--red);font-size:.82rem;margin-top:.6rem;min-height:1em}
+
+/* App */
+#app{display:none;flex-direction:column;height:100vh}
+#app.on{display:flex}
+
+/* Topbar */
+.topbar{height:var(--th);background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 .9rem;gap:.75rem;flex-shrink:0;box-shadow:var(--sh);z-index:10}
+.tb-logo{font-weight:800;font-size:1.05rem;color:var(--accent);letter-spacing:-.5px;white-space:nowrap}
+.tb-sep{width:1px;height:18px;background:var(--border);flex-shrink:0}
+.tb-page{color:var(--muted);font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.unsaved{width:7px;height:7px;border-radius:50%;background:var(--gold);display:none;flex-shrink:0}
+.unsaved.on{display:block}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.4rem}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:.35rem;padding:.42rem .85rem;border-radius:6px;font-size:.82rem;font-weight:600;transition:all .15s;white-space:nowrap;border:1.5px solid transparent}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}.btn-primary:hover{background:var(--accent2)}
+.btn-success{background:var(--green);color:#fff;border-color:var(--green)}.btn-success:hover{background:#047857}
+.btn-ghost{background:transparent;color:var(--muted);border-color:var(--border)}.btn-ghost:hover{background:var(--bg);color:var(--text)}
+.btn-toggle{background:var(--bg);color:var(--text);border-color:var(--border)}.btn-toggle.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-danger{background:var(--red);color:#fff;border-color:var(--red)}.btn-danger:hover{background:#b91c1c}
+.btn-sm{display:inline-flex;align-items:center;gap:.3rem;padding:.28rem .6rem;border-radius:5px;border:1px solid #2e323b;background:#252830;color:#c9d1d9;font-size:.76rem;font-weight:600}
+.btn-sm:hover{background:#2e323b}
+.btn:disabled,.btn-sm:disabled{opacity:.4;cursor:not-allowed}
+.btn-icon{display:inline-flex;align-items:center;justify-content:center;padding:.3rem;border-radius:5px;color:var(--muted)}.btn-icon:hover{background:var(--bg)}
+.btn-full{width:100%;justify-content:center}
+
+/* Layout */
+.layout{display:flex;flex:1;overflow:hidden}
+
+/* Sidebar */
+.sidebar{width:var(--sw);background:var(--sb);display:flex;flex-direction:column;flex-shrink:0}
+.stabs{display:grid;grid-template-columns:repeat(7,1fr);background:#0a0c10}
+
+/* Help modal */
+.hm-tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:1.25rem;flex-shrink:0}
+.hm-tab{padding:.55rem 1rem;font-size:.82rem;font-weight:600;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;display:flex;align-items:center;gap:.35rem}
+.hm-tab:hover{color:var(--text)}
+.hm-tab.on{color:var(--accent);border-bottom-color:var(--accent)}
+.hm-pane{display:none}.hm-pane.on{display:block}
+.hm-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.hm-card{background:#f8f9ff;border:1.5px solid #e8e8ff;border-radius:10px;padding:1rem 1.1rem}
+.hm-card h4{font-size:.82rem;font-weight:700;color:#3730a3;margin-bottom:.65rem;display:flex;align-items:center;gap:.4rem}
+.hm-card h4 svg{color:#6366f1}
+.help-step{display:flex;gap:.6rem;margin-bottom:.55rem;align-items:flex-start}
+.help-num{background:var(--accent);color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;margin-top:.1rem}
+.help-step p{color:#374151;font-size:.8rem;line-height:1.6;margin:0}
+.help-step p strong{color:#1e1b4b}
+.help-tip{background:#eff6ff;border-left:3px solid #3b82f6;border-radius:0 8px 8px 0;padding:.5rem .75rem;margin-top:.5rem}
+.help-tip p{color:#1d4ed8;font-size:.77rem;line-height:1.55;margin:0}
+.help-tip p strong{color:#1e40af}
+.help-warn{background:#fff7ed;border-left:3px solid #f97316;border-radius:0 8px 8px 0;padding:.5rem .75rem;margin-top:.5rem}
+.help-warn p{color:#c2410c;font-size:.77rem;line-height:1.55;margin:0}
+.help-kbd{display:inline-flex;align-items:center;background:#1f2937;border:1px solid #374151;border-radius:4px;padding:.1rem .4rem;font-size:.72rem;font-family:monospace;color:#e5e7eb;margin:0 .1rem;box-shadow:0 1px 0 #111}
+.hm-full{grid-column:1/-1}
+.hm-ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem;margin-top:.4rem}
+.hm-ctx-item{display:flex;align-items:flex-start;gap:.45rem;background:#f1f5f9;border-radius:7px;padding:.45rem .6rem}
+.hm-ctx-item svg{flex-shrink:0;margin-top:.1rem;color:#6366f1}
+.hm-ctx-item p{font-size:.77rem;color:#374151;margin:0;line-height:1.5}
+.hm-ctx-item p strong{color:#1e1b4b;display:block}
+.hm-kbd-row{display:flex;align-items:center;justify-content:space-between;padding:.4rem .6rem;border-radius:7px;background:#f8f9ff;margin-bottom:.3rem}
+.hm-kbd-row span{font-size:.8rem;color:#374151}
+.stab{background:none;border:none;color:#6b7280;padding:.55rem .15rem;display:flex;flex-direction:column;align-items:center;gap:.18rem;font-size:.58rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;transition:all .15s;border-bottom:2px solid transparent}
+.stab:hover{color:#e5e7eb;background:rgba(255,255,255,.04)}
+.stab.on{color:#fff;border-bottom-color:var(--accent)}
+.stab svg{width:15px;height:15px}
+.tab-pane{display:none;flex-direction:column;flex:1;overflow:hidden}.tab-pane.on{display:flex}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:.65rem .85rem;border-bottom:1px solid #22252d;flex-shrink:0}
+.ph h3{color:#f9fafb;font-size:.85rem;font-weight:600}
+.pscroll{flex:1;overflow-y:auto;padding:.65rem}.pscroll::-webkit-scrollbar{width:3px}.pscroll::-webkit-scrollbar-thumb{background:#2e323b;border-radius:2px}
+.hint{color:#5b6370;font-size:.76rem;line-height:1.55;margin-bottom:.6rem}
+
+/* Page list */
+.pg-item{display:flex;align-items:center;gap:.4rem;padding:.45rem .6rem;border-radius:6px;cursor:pointer;color:#b0b8c4;font-size:.82rem;transition:background .15s;margin-bottom:1px}
+.pg-item:hover{background:rgba(255,255,255,.05);color:#e5e7eb}
+.pg-item.on{background:rgba(79,70,229,.2);color:#a5b4fc;font-weight:600}
+.pg-item-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pg-del{opacity:0;color:#ef4444;padding:.1rem .25rem;border-radius:3px;transition:opacity .15s}
+.pg-item:hover .pg-del{opacity:.7}.pg-del:hover{opacity:1!important}
+
+/* Nav manager */
+.nav-row{display:flex;align-items:center;gap:.4rem;padding:.45rem .6rem;border-radius:6px;background:#1c1f26;margin-bottom:4px}
+.nav-info{flex:1;min-width:0}
+.nav-label{color:#e5e7eb;font-size:.82rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-href{color:#5b6370;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-btns{display:flex;gap:.2rem;flex-shrink:0}
+.nav-edit-btn,.nav-del-btn{display:flex;align-items:center;padding:.28rem;border-radius:4px;color:#6b7280;transition:all .15s}
+.nav-edit-btn:hover{color:#93c5fd;background:rgba(79,70,229,.15)}.nav-del-btn:hover{color:#f87171;background:rgba(239,68,68,.12)}
+.nav-add-form{background:#1c1f26;border-radius:7px;padding:.75rem;margin-top:.5rem;display:none}
+.nav-add-form.on{display:block}
+.nav-add-form label{display:block;color:#6b7280;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:.25rem}
+.nav-add-form input{width:100%;background:#13161b;border:1px solid #2e323b;border-radius:5px;color:#f3f4f6;padding:.45rem .6rem;font-size:.81rem;outline:none;margin-bottom:.5rem;transition:border-color .2s}
+.nav-add-form input:focus{border-color:var(--accent)}
+.sync-note{color:#4b5563;font-size:.72rem;margin-top:.5rem;line-height:1.5}
+
+/* Images */
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.img-card{border-radius:6px;overflow:hidden;background:#1c1f26;position:relative;aspect-ratio:1;cursor:grab}
+.img-card:active{cursor:grabbing}
+.img-card img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.img-overlay{position:absolute;inset:0;background:rgba(0,0,0,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.3rem;opacity:0;transition:opacity .15s;padding:.3rem}
+.img-card:hover .img-overlay{opacity:1}
+.img-name{font-size:.62rem;color:#9ca3af;text-align:center;padding:.15rem .3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.upload-zone{border:1.5px dashed #2e323b;border-radius:8px;text-align:center;padding:1rem .75rem;color:#5b6370;cursor:pointer;transition:all .2s;margin-bottom:.65rem;display:block}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--accent);color:#a5b4fc;background:rgba(79,70,229,.06)}
+.upload-zone input{display:none}
+
+/* Components */
+.comp-item{display:flex;align-items:center;gap:.6rem;padding:.5rem .65rem;border-radius:6px;cursor:pointer;color:#b0b8c4;font-size:.82rem;transition:background .15s;margin-bottom:2px}
+.comp-item:hover{background:rgba(255,255,255,.06);color:#e5e7eb}
+.comp-icon{width:28px;height:28px;border-radius:6px;background:#22252d;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#9ca3af}
+
+/* Forms */
+.sform{padding:.7rem;display:flex;flex-direction:column;gap:.45rem;overflow-y:auto;flex:1}
+.sform label{color:#6b7280;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:.25rem}
+.sform input,.sform textarea{background:#1c1f26;border:1px solid #2e323b;border-radius:6px;color:#f3f4f6;padding:.5rem .65rem;font-size:.81rem;resize:vertical;outline:none;transition:border-color .2s;width:100%}
+.sform input:focus,.sform textarea:focus{border-color:var(--accent)}
+.sform textarea{min-height:65px}
+.sform hr{border:none;border-top:1px solid #1c1f26;margin:.2rem 0}
+.sform p{color:#5b6370;font-size:.76rem;line-height:1.55}
+.sform code{display:block;background:#0a0c10;color:#86efac;padding:.6rem .7rem;border-radius:6px;font-size:.73rem;word-break:break-all;line-height:1.6;cursor:pointer;margin-top:.15rem}
+.sform code:hover{background:#070810}
+.deploy-status{font-size:.8rem;padding:.5rem .65rem;border-radius:6px;margin-top:.35rem;display:none}
+.ds-ok{background:rgba(5,150,105,.12);color:#6ee7b7}
+.ds-err{background:rgba(220,38,38,.12);color:#fca5a5}
+.ds-spin{color:#6b7280}
+
+/* Editor area */
+.editor{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.etoolbar{background:#fff;border-bottom:1px solid var(--border);padding:.4rem .7rem;display:flex;align-items:center;gap:.35rem;flex-shrink:0}
+.tool-sep{width:1px;height:20px;background:var(--border);flex-shrink:0;margin:0 .1rem}
+.status-txt{font-size:.78rem;color:var(--muted)}
+.dev-btn{display:inline-flex;align-items:center;justify-content:center;padding:.3rem .45rem;border-radius:5px;border:1.5px solid var(--border);color:var(--muted);transition:all .15s}
+.dev-btn.on{border-color:var(--accent);color:var(--accent);background:rgba(79,70,229,.06)}
+
+/* ── Format bar ────────────────────────────────────────── */
+.fmtbar{background:#1e2128;border-bottom:1px solid #2e323b;padding:.35rem .75rem;display:none;align-items:center;gap:.25rem;flex-shrink:0;overflow-x:auto;flex-wrap:nowrap}
+.fmtbar.on{display:flex}
+.fmtbar::-webkit-scrollbar{height:2px}.fmtbar::-webkit-scrollbar-thumb{background:#3a3d45}
+.fbtn{display:inline-flex;align-items:center;justify-content:center;padding:.3rem .45rem;border-radius:5px;color:#c9d1d9;font-size:.8rem;font-weight:600;transition:all .15s;border:1px solid transparent;min-width:28px;gap:.25rem}
+.fbtn:hover{background:#2e323b;color:#fff}
+.fbtn.on{background:rgba(79,70,229,.25);color:#a5b4fc;border-color:rgba(79,70,229,.4)}
+.fsep{width:1px;height:18px;background:#2e323b;flex-shrink:0;margin:0 .1rem}
+.fselect{background:#13161b;border:1px solid #2e323b;border-radius:5px;color:#c9d1d9;padding:.28rem .4rem;font-size:.78rem;outline:none;cursor:pointer}
+.fselect:focus{border-color:var(--accent)}
+/* Color swatch */
+.fcolor{display:inline-flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:.2rem .3rem;border-radius:5px;border:1px solid transparent;transition:background .15s}
+.fcolor:hover{background:#2e323b}
+.fcolor span{color:#9ca3af;font-size:.65rem;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.05em}
+.fcolor-swatch{width:22px;height:6px;border-radius:3px;border:1px solid #3a3d45}
+.fcolor input[type=color]{position:absolute;width:0;height:0;opacity:0;pointer-events:none}
+.fcolor-wrap{position:relative;display:inline-flex}
+
+/* Iframe */
+.frame-wrap{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:.65rem;transition:padding .3s}
+.frame-wrap.tablet{padding:.65rem 12%}
+.frame-wrap.mobile{padding:.65rem 28%}
+#pframe{width:100%;height:100%;border:none;border-radius:8px;box-shadow:var(--shlg);background:#fff}
+
+/* Source editor */
+.src-editor{flex:1;overflow:hidden;display:none;flex-direction:column}
+.src-editor.on{display:flex}
+#src-ta{flex:1;width:100%;border:none;outline:none;resize:none;padding:1rem;font-family:'Menlo','Monaco','Courier New',monospace;font-size:11.5px;line-height:1.65;color:#1f2937;background:#f8f9fa;tab-size:2}
+
+/* Modals */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:100;display:none}.overlay.on{display:block}
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#fff;border-radius:12px;box-shadow:var(--shlg);z-index:101;display:none;width:420px;max-width:95vw;max-height:90vh;overflow:hidden;flex-direction:column}
+.modal.on{display:flex}
+.modal-wide{width:680px}
+.mhead{padding:1.1rem 1.1rem .7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.mhead h3{font-size:.95rem;font-weight:700}
+.mbody{padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.6rem;overflow-y:auto;flex:1}
+.mbody label{font-size:.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:.2rem}
+.mbody input,.mbody select,.mbody textarea{width:100%;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:7px;font-size:.85rem;outline:none;transition:border-color .2s}
+.mbody input:focus,.mbody select:focus,.mbody textarea:focus{border-color:var(--accent)}
+.mfoot{padding:.7rem 1.1rem 1.1rem;display:flex;gap:.45rem;justify-content:flex-end;flex-shrink:0}
+
+/* Confirm modal */
+#modal-confirm .mbody{text-align:center;padding:1.5rem 1.25rem 1rem}
+#modal-confirm .mbody p{font-size:.95rem;color:var(--text);line-height:1.6}
+#modal-confirm .mbody small{color:var(--muted);font-size:.8rem}
+
+/* Image picker */
+.picker-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem}
+.picker-item{border-radius:6px;overflow:hidden;aspect-ratio:1;cursor:pointer;border:2px solid transparent;transition:border-color .15s;position:relative}
+.picker-item:hover{border-color:var(--accent)}
+.picker-item img{width:100%;height:100%;object-fit:cover}
+.picker-name{font-size:.62rem;color:var(--muted);text-align:center;padding:.12rem .25rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Toast */
+#toast{position:fixed;bottom:1.25rem;right:1.25rem;background:#1f2937;color:#f9fafb;padding:.55rem 1rem;border-radius:7px;font-size:.82rem;box-shadow:var(--shlg);z-index:200;opacity:0;transform:translateY(6px);transition:all .22s;pointer-events:none}
+#toast.on{opacity:1;transform:translateY(0)}
+#toast.ok{background:#064e3b}#toast.err{background:#7f1d1d}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="lc">
+    <div class="lc-logo">AYAA <small>Admin Panel</small></div>
+    <h2>Sign in to continue</h2>
+    <form id="login-form">
+      <input id="pw" type="password" placeholder="Password" autofocus autocomplete="current-password"/>
+      <button type="submit" class="lc-btn">Sign In</button>
+    </form>
+    <p class="lc-err" id="lc-err"></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header class="topbar">
+    <span class="tb-logo">AYAA Admin</span>
+    <span class="tb-sep"></span>
+    <span class="tb-page" id="tb-page">No page loaded</span>
+    <span class="unsaved" id="unsaved-dot"></span>
+    <div class="tb-right">
+      <button class="btn btn-ghost" id="btn-preview">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Preview
+      </button>
+      <button class="btn btn-primary" id="btn-save">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+        Save
+      </button>
+      <button class="btn btn-success" id="btn-deploy-top">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+        Go Live
+      </button>
+      <button class="btn btn-ghost" id="btn-help" onclick="openModal('modal-help')" style="font-weight:700;color:var(--accent);border-color:var(--accent)">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        How to Use
+      </button>
+      <button class="btn btn-ghost" id="btn-logout">Logout</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="stabs">
+        <button class="stab on" data-tab="pages"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Pages</button>
+        <button class="stab" data-tab="nav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Nav</button>
+        <button class="stab" data-tab="images"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>Images</button>
+        <button class="stab" data-tab="add"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Add</button>
+        <button class="stab" data-tab="meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Meta</button>
+        <button class="stab" data-tab="deploy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>Deploy</button>
+        <button class="stab" data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings</button>
+      </div>
+
+      <!-- Pages -->
+      <div class="tab-pane on" id="pane-pages">
+        <div class="ph"><h3>Pages</h3><button class="btn-sm" id="btn-new-page"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New page</button></div>
+        <div class="pscroll" id="page-list"></div>
+      </div>
+
+      <!-- Nav -->
+      <div class="tab-pane" id="pane-nav">
+        <div class="ph"><h3>Navigation</h3><button class="btn-sm" id="btn-add-nav-toggle"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add tab</button></div>
+        <div class="pscroll">
+          <p class="hint">Manage the navigation links shown at the top of every page.</p>
+          <div id="nav-list"></div>
+          <div class="nav-add-form" id="nav-add-form">
+            <label>Link Text</label><input type="text" id="nav-new-label" placeholder="e.g. Gallery"/>
+            <label>Page URL</label><input type="text" id="nav-new-href" placeholder="e.g. gallery.html"/>
+            <div style="display:flex;gap:.4rem;margin-top:.25rem">
+              <button class="btn btn-primary" style="flex:1;justify-content:center;font-size:.78rem;padding:.38rem" id="btn-nav-confirm">Add Link</button>
+              <button class="btn btn-ghost" style="font-size:.78rem;padding:.38rem .6rem" id="btn-nav-cancel">Cancel</button>
+            </div>
+          </div>
+          <div style="margin-top:.75rem;padding-top:.6rem;border-top:1px solid #1c1f26">
+            <button class="btn-sm btn-full" id="btn-sync-nav" style="justify-content:center;gap:.4rem">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+              Sync nav to all pages
+            </button>
+            <p class="sync-note">Applies these links to every page on the site at once.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Media (Images + Videos) -->
+      <div class="tab-pane" id="pane-images">
+        <div class="ph"><h3>Media</h3></div>
+        <div class="pscroll">
+          <p class="hint" id="drag-hint" style="display:none">In Edit Mode, drag any file onto the page to insert it.</p>
+          <label class="upload-zone" id="upload-zone">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+            <div style="font-size:.8rem;margin-top:.25rem">Click or drag to upload</div>
+            <div style="font-size:.7rem;color:#4b5563;margin-top:.15rem">Images · MP4 · MOV · WEBM</div>
+            <input type="file" id="img-upload" accept="image/*,video/mp4,video/webm,video/quicktime,video/x-msvideo" multiple/>
+          </label>
+          <div class="img-grid" id="img-grid"></div>
+        </div>
+      </div>
+
+      <!-- Add section -->
+      <div class="tab-pane" id="pane-add">
+        <div class="ph"><h3>Add Section</h3></div>
+        <div class="pscroll">
+          <p class="hint">Click a block to insert it before the footer. Then use Edit Mode to change the text.</p>
+          <div id="comp-list"></div>
+        </div>
+      </div>
+
+      <!-- Meta -->
+      <div class="tab-pane" id="pane-meta">
+        <div class="ph"><h3>Meta / SEO</h3></div>
+        <form class="sform" id="meta-form">
+          <label>Page Title</label><input type="text" name="title" placeholder="Title shown in browser tab..."/>
+          <label>Meta Description</label><textarea name="description" rows="3" placeholder="Short description for Google..."></textarea>
+          <label>Social Title</label><input type="text" name="ogTitle" placeholder="Title shown when shared on Facebook..."/>
+          <label>Social Description</label><textarea name="ogDescription" rows="2" placeholder="Description for social media..."></textarea>
+          <label>Social Image URL</label><input type="text" name="ogImage" placeholder="https://..."/>
+          <button type="submit" class="btn btn-primary btn-full">Save Meta Tags</button>
+        </form>
+      </div>
+
+      <!-- Deploy -->
+      <div class="tab-pane" id="pane-deploy">
+        <div class="ph"><h3>Deploy to Live</h3></div>
+        <div class="sform">
+          <p>Paste your Netlify Deploy Hook URL to publish all saved changes live.</p>
+          <label>Netlify Deploy Hook URL</label>
+          <input type="url" id="hook-input" placeholder="https://api.netlify.com/build_hooks/..."/>
+          <button class="btn btn-success btn-full" id="btn-deploy-now">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+            Deploy Now
+          </button>
+          <div class="deploy-status" id="deploy-status"></div>
+          <hr/><p>Get hook URL: Netlify Dashboard → Site Configuration → Build hooks → Add build hook</p>
+          <hr/><p>Or use Terminal:</p>
+          <code id="cli-cmd">netlify deploy --prod --dir "."</code>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="tab-pane" id="pane-settings">
+        <div class="ph"><h3>Settings</h3></div>
+        <form class="sform" id="settings-form">
+          <label>Saved Deploy Hook URL</label><input type="url" name="netlifyHookUrl" placeholder="https://api.netlify.com/build_hooks/..."/>
+          <hr/>
+          <label>New Password</label><input type="password" name="newPassword" id="new-pw" placeholder="Leave blank to keep current..."/>
+          <label>Confirm Password</label><input type="password" id="confirm-pw" placeholder="Repeat new password..."/>
+          <button type="submit" class="btn btn-primary btn-full">Save Settings</button>
+        </form>
+      </div>
+    </aside>
+
+    <!-- EDITOR -->
+    <main class="editor">
+      <!-- Main toolbar -->
+      <div class="etoolbar">
+        <button class="btn btn-toggle" id="btn-edit">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit Mode
+        </button>
+        <button class="btn btn-ghost" id="btn-undo" disabled title="Undo (Ctrl+Z)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+          Undo
+        </button>
+        <button class="btn btn-ghost" id="btn-redo" disabled title="Redo (Ctrl+Y)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.51"/></svg>
+          Redo
+        </button>
+        <span class="tool-sep"></span>
+        <button class="btn btn-ghost" id="btn-source">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Source
+        </button>
+        <span class="tool-sep"></span>
+        <button class="dev-btn on" data-device="desktop" title="Desktop"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></button>
+        <button class="dev-btn" data-device="tablet" title="Tablet"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+        <button class="dev-btn" data-device="mobile" title="Mobile"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></button>
+        <div style="flex:1"></div>
+        <span class="status-txt" id="status-txt">Select a page to start editing.</span>
+      </div>
+
+      <!-- Format bar (visible in edit mode) -->
+      <div class="fmtbar" id="fmtbar">
+        <!-- Bold / Italic / Underline -->
+        <button class="fbtn" id="fb-bold" title="Bold (Ctrl+B)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"/></svg><span style="font-weight:700;font-size:.82rem">B</span></button>
+        <button class="fbtn" id="fb-italic" title="Italic"><span style="font-style:italic;font-size:.9rem;font-family:serif">I</span></button>
+        <button class="fbtn" id="fb-underline" title="Underline"><span style="text-decoration:underline;font-size:.82rem">U</span></button>
+        <span class="fsep"></span>
+        <!-- Font size -->
+        <select class="fselect" id="fb-size" title="Font size">
+          <option value="">Size</option>
+          <option value="11px">11</option><option value="12px">12</option><option value="14px">14</option>
+          <option value="16px">16</option><option value="18px">18</option><option value="20px">20</option>
+          <option value="24px">24</option><option value="28px">28</option><option value="32px">32</option>
+          <option value="40px">40</option><option value="48px">48</option><option value="64px">64</option>
+        </select>
+        <span class="fsep"></span>
+        <!-- Align -->
+        <button class="fbtn" data-align="left" title="Align left"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg></button>
+        <button class="fbtn" data-align="center" title="Center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg></button>
+        <button class="fbtn" data-align="right" title="Align right"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg></button>
+        <span class="fsep"></span>
+        <!-- Text color -->
+        <div class="fcolor-wrap" title="Text color">
+          <div class="fcolor" id="fcolor-text-btn">
+            <span style="font-weight:700;color:#fff;font-size:.75rem">A</span>
+            <div class="fcolor-swatch" id="fcolor-text-swatch" style="background:#ffffff"></div>
+          </div>
+          <input type="color" id="fb-color" value="#000000" style="position:absolute;width:0;height:0;opacity:0;pointer-events:none">
+        </div>
+        <!-- Background color -->
+        <div class="fcolor-wrap" title="Background color">
+          <div class="fcolor" id="fcolor-bg-btn">
+            <span style="font-size:.65rem;color:#9ca3af;font-weight:600">BG</span>
+            <div class="fcolor-swatch" id="fcolor-bg-swatch" style="background:#374151"></div>
+          </div>
+          <input type="color" id="fb-bgcolor" value="#ffffff" style="position:absolute;width:0;height:0;opacity:0;pointer-events:none">
+        </div>
+        <span class="fsep"></span>
+        <!-- Section background color -->
+        <div class="fcolor-wrap" title="Section background color">
+          <div class="fcolor" id="fcolor-secbg-btn">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            <div class="fcolor-swatch" id="fcolor-secbg-swatch" style="background:#374151"></div>
+          </div>
+          <input type="color" id="fb-secbg" value="#ffffff" style="position:absolute;width:0;height:0;opacity:0;pointer-events:none">
+        </div>
+        <!-- Section bg photo -->
+        <button class="fbtn" id="fb-sec-photo" title="Set section background photo" style="font-size:.73rem;gap:.3rem;padding:.28rem .55rem">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Section Photo
+        </button>
+        <!-- Remove section bg photo -->
+        <button class="fbtn" id="fb-sec-photo-remove" title="Remove section background photo" style="font-size:.73rem;padding:.28rem .55rem;color:#ef4444">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          Remove Photo
+        </button>
+        <span class="fsep"></span>
+        <!-- Add text anywhere -->
+        <button class="fbtn" id="fb-add-text" title="Insert text paragraph after focused element (or double-click any blank area)" style="font-size:.73rem;padding:.28rem .6rem;color:#86efac">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Text
+        </button>
+        <span style="font-size:.72rem;color:#4b5563;margin-left:.25rem;white-space:nowrap" id="fmt-hint">Click a text element first</span>
+      </div>
+
+      <div class="frame-wrap" id="frame-wrap">
+        <iframe id="pframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
+      </div>
+      <div class="src-editor" id="src-editor">
+        <textarea id="src-ta" spellcheck="false"></textarea>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="overlay" id="overlay"></div>
+
+<!-- Custom confirm -->
+<div class="modal" id="modal-confirm">
+  <div class="mhead"><h3 id="confirm-title">Confirm</h3><button class="btn-icon" onclick="closeModal('modal-confirm')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="mbody"><p id="confirm-msg"></p><small id="confirm-sub"></small></div>
+  <div class="mfoot">
+    <button class="btn btn-ghost" onclick="closeModal('modal-confirm')">Cancel</button>
+    <button class="btn btn-danger" id="confirm-ok">Delete</button>
+  </div>
+</div>
+
+<!-- New page -->
+<div class="modal" id="modal-new-page">
+  <div class="mhead"><h3>Create New Page</h3><button class="btn-icon" onclick="closeModal('modal-new-page')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="mbody">
+    <div><label>Page name (no spaces)</label><input type="text" id="new-page-name" placeholder="e.g. gallery"/></div>
+    <div><label>Copy layout from</label><select id="new-page-copy"><option value="">Blank AYAA page</option></select></div>
+  </div>
+  <div class="mfoot">
+    <button class="btn btn-ghost" onclick="closeModal('modal-new-page')">Cancel</button>
+    <button class="btn btn-primary" id="btn-create-page">Create Page</button>
+  </div>
+</div>
+
+<!-- Image picker -->
+<div class="modal modal-wide" id="modal-picker">
+  <div class="mhead"><h3>Image Library</h3><button class="btn-icon" onclick="closeModal('modal-picker')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+  <div class="mbody">
+    <p style="color:var(--muted);font-size:.8rem">Click an image to select it.</p>
+    <div class="picker-grid" id="picker-grid"></div>
+  </div>
+  <div class="mfoot"><button class="btn btn-ghost" onclick="closeModal('modal-picker')">Close</button></div>
+</div>
+
+<!-- Help / Manual Modal -->
+<div class="modal modal-wide" id="modal-help" style="width:860px;max-height:92vh">
+  <div class="mhead" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border-radius:12px 12px 0 0;padding:1.25rem 1.4rem">
+    <div>
+      <h3 style="font-size:1.1rem;color:#fff;font-weight:700;margin-bottom:.2rem">
+        📘 AYAA Admin — Complete Guide
+      </h3>
+      <p style="color:rgba(255,255,255,.7);font-size:.8rem;margin:0">Everything you need to manage your website</p>
+    </div>
+    <button class="btn-icon" onclick="closeModal('modal-help')" style="color:#fff;opacity:.7"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  </div>
+  <div style="padding:.85rem 1.4rem 0;flex-shrink:0">
+    <div class="hm-tabs">
+      <button class="hm-tab on" onclick="hmTab(this,'hm-basics')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Getting Started
+      </button>
+      <button class="hm-tab" onclick="hmTab(this,'hm-edit')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Editing
+      </button>
+      <button class="hm-tab" onclick="hmTab(this,'hm-media')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        Media
+      </button>
+      <button class="hm-tab" onclick="hmTab(this,'hm-rightclick')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Right-Click
+      </button>
+      <button class="hm-tab" onclick="hmTab(this,'hm-publish')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+        Publish &amp; SEO
+      </button>
+    </div>
+  </div>
+  <div class="mbody" style="padding:1rem 1.4rem 1.25rem">
+
+    <!-- TAB: GETTING STARTED -->
+    <div class="hm-pane on" id="hm-basics">
+      <div class="hm-grid">
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Quick Start — 4 Steps</h4>
+          <div class="help-step"><div class="help-num">1</div><p><strong>Pick a page</strong> — click any page name in the <strong>Pages</strong> tab (left sidebar). It loads in the preview window.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p><strong>Turn on Edit Mode</strong> — click the <strong>Edit Mode</strong> button in the toolbar above the page, or press <span class="help-kbd">Ctrl E</span>. Purple outlines appear on everything you can change.</p></div>
+          <div class="help-step"><div class="help-num">3</div><p><strong>Make your changes</strong> — click text to edit it, hover over sections for controls, right-click anything for options.</p></div>
+          <div class="help-step"><div class="help-num">4</div><p><strong>Save</strong> — press <span class="help-kbd">Ctrl S</span> or click the <strong>Save</strong> button (top right). A green dot means unsaved changes.</p></div>
+        </div>
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg> Undo &amp; Redo</h4>
+          <div class="help-step"><div class="help-num">1</div><p>Made a mistake? Press <span class="help-kbd">Ctrl Z</span> to undo it. Up to <strong>40 steps</strong> are saved in history.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>Changed your mind? Press <span class="help-kbd">Ctrl Y</span> to redo what you just undid.</p></div>
+          <div class="help-warn"><p>⚠️ Undo history disappears when you reload the page. <strong>Always Save before reloading.</strong></p></div>
+        </div>
+        <div class="hm-card hm-full">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Keyboard Shortcuts</h4>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem">
+            <div class="hm-kbd-row"><span>Save page</span><span class="help-kbd">Ctrl S</span></div>
+            <div class="hm-kbd-row"><span>Toggle Edit Mode</span><span class="help-kbd">Ctrl E</span></div>
+            <div class="hm-kbd-row"><span>Undo last action</span><span class="help-kbd">Ctrl Z</span></div>
+            <div class="hm-kbd-row"><span>Redo action</span><span class="help-kbd">Ctrl Y</span></div>
+            <div class="hm-kbd-row"><span>Bold selected text</span><span class="help-kbd">Ctrl B</span></div>
+            <div class="hm-kbd-row"><span>Close any popup</span><span class="help-kbd">Esc</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: EDITING -->
+    <div class="hm-pane" id="hm-edit">
+      <div class="hm-grid">
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Editing Text</h4>
+          <div class="help-step"><div class="help-num">1</div><p>Turn on <strong>Edit Mode</strong>, then <strong>click any text</strong> on the page. Headings, paragraphs, button labels, captions — all editable.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>Just start typing to replace the text. Press <strong>Enter</strong> for a new line.</p></div>
+          <div class="help-step"><div class="help-num">3</div><p>Use the <strong>dark format bar</strong> above the page to change: Bold · Italic · Font size · Alignment · Text color · Background color.</p></div>
+          <div class="help-tip"><p><strong>Add brand-new text:</strong> click the green <strong>+ Add Text</strong> button in the format bar, or just <strong>double-click any blank area</strong> on the page.</p></div>
+        </div>
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg> Sections &amp; Cards</h4>
+          <div class="help-step"><div class="help-num">1</div><p>In Edit Mode, <strong>hover over any section</strong> (a full row block). Three buttons appear in the top-right corner: <strong>↑ Up · ↓ Down · Delete</strong>.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>To remove a single <strong>card</strong> (one box inside a grid), hover directly over that card — a red <strong>"Remove card"</strong> button appears on it.</p></div>
+          <div class="help-step"><div class="help-num">3</div><p>To <strong>add a new section</strong>, open the <strong>Add</strong> tab in the sidebar and click any block type.</p></div>
+          <div class="help-tip"><p>Deleted something? Press <span class="help-kbd">Ctrl Z</span> immediately to bring it back.</p></div>
+        </div>
+        <div class="hm-card hm-full">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg> Navigation Links</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+            <div class="help-step"><div class="help-num">1</div><p>Open the <strong>Nav</strong> tab to see all menu links. Click the <strong>pencil icon</strong> to rename a link or change its URL.</p></div>
+            <div class="help-step"><div class="help-num">2</div><p>Click <strong>+ Add tab</strong> to add a new menu item. Fill in the label and the page it links to (e.g. <em>about.html</em>).</p></div>
+            <div class="help-step"><div class="help-num">3</div><p>Click <strong>Sync nav to all pages</strong> to apply the same menu to every page on the site at once.</p></div>
+            <div class="help-tip"><p>Always sync after adding or removing links so every page stays up to date.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: MEDIA -->
+    <div class="hm-pane" id="hm-media">
+      <div class="hm-grid">
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg> Uploading Images &amp; Videos</h4>
+          <div class="help-step"><div class="help-num">1</div><p>Click the <strong>Media</strong> tab (Images icon) in the sidebar.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p><strong>Drag files from your computer</strong> onto the upload box, or click it to browse and select files.</p></div>
+          <div class="help-step"><div class="help-num">3</div><p>Supported files: <strong>JPG, PNG, WEBP, SVG</strong> for images — <strong>MP4, MOV, WEBM</strong> for videos.</p></div>
+          <div class="help-tip"><p>Videos can be up to <strong>500 MB</strong>. Images up to 500 MB too. Larger files take a moment to upload — wait for the green confirmation.</p></div>
+        </div>
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Placing Media on the Page</h4>
+          <div class="help-step"><div class="help-num">1</div><p><strong>Turn on Edit Mode</strong> first.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>In the <strong>Media tab</strong>, find the image or video you want. <strong>Click and drag it</strong> from the sidebar directly onto the page.</p></div>
+          <div class="help-step"><div class="help-num">3</div><p>Drop it where you want it. Images appear as photos; <strong>videos appear with a built-in play button</strong> so visitors can watch them.</p></div>
+          <div class="help-tip"><p>To <strong>replace an image</strong> already on the page, right-click it in Edit Mode and choose <strong>"Replace image"</strong>.</p></div>
+        </div>
+        <div class="hm-card hm-full">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Section Background Photos</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+            <div class="help-step"><div class="help-num">1</div><p>In Edit Mode, <strong>click any text inside the section</strong> you want to add a background photo to.</p></div>
+            <div class="help-step"><div class="help-num">2</div><p>In the format bar, click <strong>"Section Photo"</strong> — a picker opens. Click any uploaded image to set it as the background.</p></div>
+            <div class="help-step"><div class="help-num">3</div><p>To remove it, click the same text element, then click <strong>"Remove Photo"</strong> in the format bar.</p></div>
+            <div class="help-tip"><p>Use high-quality wide photos for best results. The image auto-fills and centers itself.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: RIGHT-CLICK -->
+    <div class="hm-pane" id="hm-rightclick">
+      <p style="color:#374151;font-size:.85rem;margin-bottom:1rem;line-height:1.6">In <strong>Edit Mode</strong>, right-clicking anything on the page opens a smart menu with actions for that specific element. No need to hunt for buttons — just right-click!</p>
+      <div class="hm-ctx-grid">
+        <div class="hm-ctx-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <p><strong>Right-click an Image</strong>Replace the image, copy its filename, or delete it from the page.</p>
+        </div>
+        <div class="hm-ctx-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          <p><strong>Right-click a Link</strong>Edit the URL it points to, or remove the link while keeping the text.</p>
+        </div>
+        <div class="hm-ctx-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <p><strong>Right-click Text</strong>Add a new text block above or below it, or delete that text element entirely.</p>
+        </div>
+        <div class="hm-ctx-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <p><strong>Right-click a Card</strong>Duplicate it (creates an identical copy next to it) or remove it from the page.</p>
+        </div>
+        <div class="hm-ctx-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/></svg>
+          <p><strong>Right-click a Section</strong>Move it up or down the page, duplicate the whole section, or delete it.</p>
+        </div>
+        <div class="hm-ctx-item" style="background:#fefce8;border:1.5px solid #fde047">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ca8a04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <p style="color:#78350f"><strong>Tip</strong>If you delete something by accident, press <span class="help-kbd" style="background:#1f2937;color:#e5e7eb">Ctrl Z</span> right away to bring it back.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PUBLISH & SEO -->
+    <div class="hm-pane" id="hm-publish">
+      <div class="hm-grid">
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Publishing to the Live Website</h4>
+          <div class="help-step"><div class="help-num">1</div><p><strong>Save all your pages first</strong> using <span class="help-kbd">Ctrl S</span> on each one. Unsaved pages won't go live.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>Click the <strong>Go Live</strong> button in the top-right corner (the green rocket button).</p></div>
+          <div class="help-step"><div class="help-num">3</div><p>Wait 1–2 minutes. Your site will update automatically. You'll see a green confirmation message.</p></div>
+          <div class="help-warn"><p>⚠️ Needs a <strong>Netlify Deploy Hook URL</strong> in the <strong>Settings</strong> tab. Ask your developer if the Go Live button isn't working.</p></div>
+        </div>
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> SEO — Getting Found on Google</h4>
+          <div class="help-step"><div class="help-num">1</div><p>Open the <strong>Meta</strong> tab in the sidebar while any page is loaded.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p><strong>Page Title</strong> — this appears in browser tabs and Google search results. Make it descriptive (e.g. "About Us — AYAA South Sudan").</p></div>
+          <div class="help-step"><div class="help-num">3</div><p><strong>Meta Description</strong> — the 1–2 sentence summary shown under your link in Google. Keep it under 160 characters.</p></div>
+          <div class="help-step"><div class="help-num">4</div><p>Fill in <strong>Social Title &amp; Description</strong> so links look great when shared on Facebook, WhatsApp, etc.</p></div>
+          <div class="help-tip"><p>Click <strong>Save Meta Tags</strong> then press <span class="help-kbd">Ctrl S</span> to save the page. Do this for every page.</p></div>
+        </div>
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Creating New Pages</h4>
+          <div class="help-step"><div class="help-num">1</div><p>In the <strong>Pages</strong> tab, click <strong>+ New page</strong>.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>Enter a name (no spaces, e.g. <em>gallery</em>) and optionally copy the layout from an existing page.</p></div>
+          <div class="help-step"><div class="help-num">3</div><p>The new page opens automatically. Use Edit Mode to add content, then <strong>add it to the Nav</strong> so visitors can find it.</p></div>
+        </div>
+        <div class="hm-card">
+          <h4><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings &amp; Password</h4>
+          <div class="help-step"><div class="help-num">1</div><p>Open the <strong>Settings</strong> tab to change your admin password or save your Netlify deploy hook URL.</p></div>
+          <div class="help-step"><div class="help-num">2</div><p>To change your password: type the new password in both fields and click <strong>Save Settings</strong>.</p></div>
+          <div class="help-tip"><p>Keep your password secure. The default is <strong>ayaa2024</strong> — change it as soon as possible.</p></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="mfoot" style="border-top:1px solid var(--border);background:#f9fafb">
+    <button class="btn btn-primary" onclick="closeModal('modal-help')" style="padding:.6rem 1.5rem">Got it — close guide</button>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+const frame = document.getElementById('pframe');
+let curPage = null, editMode = false, srcMode = false, unsaved = false;
+let pickerCb = null;
+
+// ── Undo/Redo ──────────────────────────────────────────────
+const undoStack = [], redoStack = [];
+let snapTimer, restoringSnap = false;
+window.__adm_el = null; // currently focused editable in iframe
+window._dragImg = null; // image being dragged from sidebar
+
+function scheduleSnapshot(){ clearTimeout(snapTimer); snapTimer = setTimeout(pushSnapshot, 1200); }
+function pushSnapshot(force){
+  if(restoringSnap || !curPage || !frame.contentDocument) return;
+  const html = cleanHTML();
+  if(!force && html === undoStack[undoStack.length-1]) return;
+  undoStack.push(html);
+  if(undoStack.length > 40) undoStack.shift();
+  redoStack.length = 0;
+  updateUndoBtns();
+}
+function undo(){
+  if(undoStack.length < 2) return;
+  redoStack.push(undoStack.pop());
+  restoreSnap(undoStack[undoStack.length-1]);
+}
+function redo(){
+  if(!redoStack.length) return;
+  const s = redoStack.pop();
+  undoStack.push(s);
+  restoreSnap(s);
+}
+function restoreSnap(html){
+  restoringSnap = true;
+  frame.srcdoc = injectBase(html);
+  frame.onload = () => { restoringSnap = false; markUnsaved(); if(editMode) injectEditor(); setStatus('Restored.'); };
+  updateUndoBtns();
+}
+function injectBase(html){ return html.replace(/(<head[^>]*>)/i, `$1\n  <base href="${location.origin}/site/">`); }
+function updateUndoBtns(){
+  document.getElementById('btn-undo').disabled = undoStack.length < 2;
+  document.getElementById('btn-redo').disabled = !redoStack.length;
+}
+
+// ── Toast ──────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, type=''){
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'on ' + type;
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>el.className='', 2800);
+}
+
+// ── Custom confirm ─────────────────────────────────────────
+function showConfirm(title, msg, sub, okLabel, okClass, cb){
+  document.getElementById('confirm-title').textContent = title;
+  document.getElementById('confirm-msg').textContent   = msg;
+  document.getElementById('confirm-sub').textContent   = sub || '';
+  const okBtn = document.getElementById('confirm-ok');
+  okBtn.textContent = okLabel || 'Delete';
+  okBtn.className   = 'btn ' + (okClass || 'btn-danger');
+  okBtn.onclick = () => { closeModal('modal-confirm'); cb(); };
+  openModal('modal-confirm');
+}
+
+// ── Modals ─────────────────────────────────────────────────
+function openModal(id){ document.getElementById(id).classList.add('on'); document.getElementById('overlay').classList.add('on'); }
+function closeModal(id){
+  document.getElementById(id).classList.remove('on');
+  if(!document.querySelectorAll('.modal.on').length) document.getElementById('overlay').classList.remove('on');
+}
+document.getElementById('overlay').onclick = () => {
+  document.querySelectorAll('.modal.on').forEach(m => m.classList.remove('on'));
+  document.getElementById('overlay').classList.remove('on');
+};
+
+// ── Status ─────────────────────────────────────────────────
+function setStatus(t){ document.getElementById('status-txt').textContent = t; }
+function markUnsaved(){ unsaved = true; document.getElementById('unsaved-dot').classList.add('on'); }
+function markSaved()  { unsaved = false; document.getElementById('unsaved-dot').classList.remove('on'); }
+
+// ── Auth ───────────────────────────────────────────────────
+document.getElementById('login-form').onsubmit = async e => {
+  e.preventDefault();
+  const r = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:document.getElementById('pw').value})});
+  if(r.ok){ document.getElementById('login-screen').style.display='none'; document.getElementById('app').classList.add('on'); initAdmin(); }
+  else document.getElementById('lc-err').textContent = 'Wrong password. Try again.';
+};
+document.getElementById('btn-logout').onclick = async () => { await fetch('/api/logout',{method:'POST'}); location.reload(); };
+
+// ── Sidebar tabs ───────────────────────────────────────────
+document.querySelectorAll('.stab').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('pane-'+btn.dataset.tab).classList.add('on');
+    if(btn.dataset.tab==='images')   loadImages();
+    if(btn.dataset.tab==='meta')     loadMeta();
+    if(btn.dataset.tab==='nav')      loadNav();
+    if(btn.dataset.tab==='deploy')   loadDeploySettings();
+    if(btn.dataset.tab==='settings') loadSettings();
+  };
+});
+
+// ── Device ─────────────────────────────────────────────────
+document.querySelectorAll('.dev-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.dev-btn').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('frame-wrap').className = 'frame-wrap ' + btn.dataset.device;
+  };
+});
+
+// ── Pages ──────────────────────────────────────────────────
+async function loadPageList(){
+  const pages = await fetch('/api/pages').then(r=>r.json());
+  const list  = document.getElementById('page-list');
+  list.innerHTML = '';
+  const sel = document.getElementById('new-page-copy');
+  sel.innerHTML = '<option value="">Blank AYAA page</option>';
+  pages.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'pg-item' + (p===curPage?' on':'');
+    d.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity:.45;flex-shrink:0"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="pg-item-name">${p}</span>
+      <button class="pg-del" data-p="${p}" title="Delete page"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>`;
+    d.onclick = e => { if(e.target.closest('.pg-del')) return; loadPage(p); };
+    d.querySelector('.pg-del').onclick = e => {
+      e.stopPropagation();
+      showConfirm('Delete page', `Delete "${p}"?`, 'It will be saved as .deleted and can be recovered manually.', 'Delete', 'btn-danger', async () => {
+        await fetch('/api/page/'+p,{method:'DELETE'});
+        toast('Deleted: '+p,'ok');
+        if(curPage===p){ curPage=null; frame.srcdoc=''; setStatus('Page deleted.'); }
+        loadPageList();
+      });
+    };
+    list.appendChild(d);
+    const opt = document.createElement('option');
+    opt.value = p; opt.textContent = p;
+    sel.appendChild(opt);
+  });
+}
+
+async function loadPage(name){
+  if(unsaved){ showConfirm('Unsaved changes','Load a new page and discard changes?','','Load anyway','btn-danger',()=>doLoadPage(name)); return; }
+  doLoadPage(name);
+}
+function doLoadPage(name){
+  curPage = name;
+  document.getElementById('tb-page').textContent = name;
+  markSaved();
+  undoStack.length = 0; redoStack.length = 0; updateUndoBtns();
+  window.__adm_el = null;
+  if(editMode) disableEdit();
+  if(srcMode)  toggleSrc(false);
+  setStatus('Loading '+name+'…');
+  frame.src = '/site/'+name;
+  frame.onload = () => {
+    setStatus('Editing: '+name+'  ·  Turn on Edit Mode to change text');
+    setTimeout(()=>{ undoStack.length=0; pushSnapshot(true); }, 300);
+  };
+  document.querySelectorAll('.pg-item').forEach(i => i.classList.toggle('on', i.querySelector('.pg-item-name').textContent===name));
+  document.getElementById('btn-preview').onclick = () => window.open('/site/'+name,'_blank');
+}
+
+// ── Edit mode ──────────────────────────────────────────────
+document.getElementById('btn-edit').onclick = () => {
+  if(!curPage) return toast('Load a page first');
+  editMode ? disableEdit() : enableEdit();
+};
+function enableEdit(){
+  if(!frame.contentDocument) return;
+  editMode = true;
+  const btn = document.getElementById('btn-edit');
+  btn.classList.add('on');
+  btn.innerHTML = btn.innerHTML.replace('Edit Mode','Editing ON');
+  document.getElementById('fmtbar').classList.add('on');
+  document.getElementById('drag-hint').style.display = 'block';
+  setStatus('Click any text to edit. Drag images from the Images panel. Use the format bar to style.');
+  injectEditor();
+}
+function disableEdit(){
+  editMode = false;
+  window.__adm_el = null;
+  const btn = document.getElementById('btn-edit');
+  btn.classList.remove('on');
+  btn.innerHTML = btn.innerHTML.replace('Editing ON','Edit Mode');
+  document.getElementById('fmtbar').classList.remove('on');
+  document.getElementById('drag-hint').style.display = 'none';
+  document.getElementById('fmt-hint').textContent = 'Click a text element first';
+  removeEditor();
+  setStatus('Edit mode off. '+(curPage?'Editing: '+curPage:''));
+}
+
+function injectEditor(){
+  const doc = frame.contentDocument;
+  if(!doc) return;
+
+  // Styles
+  let st = doc.getElementById('__adm_st');
+  if(!st){ st = doc.createElement('style'); st.id='__adm_st'; st.setAttribute('data-adm','1'); doc.head.appendChild(st); }
+  st.textContent = `
+    .__ae{cursor:text!important;outline:none;transition:outline .1s;min-width:2px;min-height:1em}
+    .__ae:hover{outline:2px dashed #4f46e5!important;outline-offset:3px}
+    .__ae:focus{outline:2px solid #4f46e5!important;outline-offset:3px;background:rgba(79,70,229,.04)!important}
+    .__aw{position:relative!important}
+    .__aw:hover:not(:has(.__aw-card:hover))>.__ac{opacity:1!important;pointer-events:auto!important}
+    .__aw-card{position:relative!important}
+    .__aw-card:hover>.__ac{opacity:1!important;pointer-events:auto!important}
+    .__ac{position:absolute;top:6px;right:6px;z-index:99999;display:flex;gap:4px;opacity:0;pointer-events:none;transition:opacity .15s}
+    .__ac button{display:flex;align-items:center;gap:3px;padding:4px 8px;border:none;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3);font-family:-apple-system,sans-serif}
+    .__ab-del{background:#dc2626;color:#fff}
+    .__ab-up,.__ab-dn{background:#374151;color:#fff}
+    .__drop{outline:3px solid #4f46e5!important;outline-offset:4px;background:rgba(79,70,229,.07)!important}
+    img.__ae-img{cursor:move;outline:2px dashed #4f46e5}
+    img.__ae-img:hover{outline:2px solid #4f46e5}
+  `;
+
+  // Make text elements editable
+  const textSel = [
+    'h1','h2','h3','h4','h5','h6','p','li','td','th','figcaption',
+    '.section-label','.section-title','.section-subtitle',
+    '.card__title','.card__text','.card__link',
+    '.stat__number','.stat__label',
+    '.hero__title','.hero__subtitle','.hero__badge',
+    '.story__title','.story__text','.story__label',
+    '.cta-banner__eyebrow','.cta-banner__title','.cta-banner__text',
+    '.urgency-alert__title','.urgency-alert__text',
+    '.impact-number','.impact-label',
+    '.partner-banner__label',
+    '.founder-portrait__badge-name','.founder-portrait__badge-title',
+    '.footer__brand-name','.footer__brand-sub','.footer__desc',
+    '.footer__heading','.footer__copyright','.footer__ein',
+    '.photo-card__caption',
+    '.navbar__logo-name','.navbar__logo-sub',
+    'a.navbar__link','a.btn','a.footer__link',
+  ].join(',');
+
+  doc.querySelectorAll(textSel).forEach(el => {
+    if(el.closest('[data-adm]')||el.closest('.__ac')||el.closest('script')||el.closest('style')) return;
+    if(el.querySelectorAll('*').length > 3) return; // skip complex wrappers
+    el.classList.add('__ae');
+    el.setAttribute('contenteditable','true');
+    el.setAttribute('data-adm-edit','1');
+    if(el.tagName==='A') el.addEventListener('click', e=>e.preventDefault(), {capture:true});
+    el.addEventListener('focus', () => {
+      window.__adm_el = el;
+      updateFmtHint(el.textContent.trim().slice(0,30)||'element');
+    });
+    el.addEventListener('input', () => { markUnsaved(); scheduleSnapshot(); });
+    el.addEventListener('blur',  () => { setTimeout(()=>{ if(window.__adm_el===el) updateFmtHint(null); }, 200); });
+  });
+
+  // Section controls
+  const secSel = 'section,.stats-bar,.cta-banner,.photo-strip,.story-grid,.urgency-alert,.partner-banner';
+  doc.querySelectorAll(secSel).forEach(el => {
+    if(el.closest('[data-adm]')||el.querySelector('.__ac')) return;
+    el.classList.add('__aw');
+    const ctrl = doc.createElement('div');
+    ctrl.className = '__ac'; ctrl.setAttribute('data-adm','1');
+    ctrl.innerHTML = `
+      <button class="__ab-up" title="Move up"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+      <button class="__ab-dn" title="Move down"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <button class="__ab-del"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Delete</button>`;
+    ctrl.querySelector('.__ab-del').onclick = () => { pushSnapshot(); el.remove(); markUnsaved(); pushSnapshot(true); toast('Section deleted. Ctrl+Z to undo.','ok'); };
+    ctrl.querySelector('.__ab-up').onclick  = () => { const p=el.previousElementSibling; if(p){el.parentNode.insertBefore(el,p); markUnsaved(); pushSnapshot(true);} };
+    ctrl.querySelector('.__ab-dn').onclick  = () => { const n=el.nextElementSibling; if(n){n.parentNode.insertBefore(n,el); markUnsaved(); pushSnapshot(true);} };
+    el.appendChild(ctrl);
+  });
+
+  // Card-level delete controls
+  doc.querySelectorAll('.card,.photo-card,.faq-item,.partner-banner').forEach(el => {
+    if(el.closest('[data-adm]')||el.querySelector(':scope > .__ac')) return;
+    el.classList.add('__aw-card');
+    const ctrl = doc.createElement('div');
+    ctrl.className = '__ac'; ctrl.setAttribute('data-adm','1');
+    ctrl.innerHTML = `<button class="__ab-del"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Remove card</button>`;
+    ctrl.querySelector('.__ab-del').onclick = () => { pushSnapshot(); el.remove(); markUnsaved(); pushSnapshot(true); toast('Card removed. Ctrl+Z to undo.','ok'); };
+    el.appendChild(ctrl);
+  });
+
+  // Double-click on any non-editable area to add a text paragraph
+  doc.addEventListener('dblclick', e => {
+    if(e.target.closest('.__ae')||e.target.closest('.__ac')||e.target.closest('[data-adm]')) return;
+    const container = e.target.closest('section,.container,div,article') || doc.body;
+    const p = doc.createElement('p');
+    p.textContent = 'Your text here — click to edit';
+    p.style.cssText = 'line-height:1.8;margin:.75rem 0;cursor:text;';
+    p.classList.add('__ae');
+    p.setAttribute('contenteditable','true');
+    p.setAttribute('data-adm-edit','1');
+    p.addEventListener('focus', () => { window.__adm_el = p; updateFmtHint(p.textContent.trim().slice(0,30)||'element'); });
+    p.addEventListener('input', () => { markUnsaved(); scheduleSnapshot(); });
+    p.addEventListener('blur', () => { setTimeout(()=>{ if(window.__adm_el===p) updateFmtHint(null); }, 200); });
+    let ref = e.target;
+    while(ref && ref.parentElement !== container) ref = ref.parentElement;
+    if(ref && container.contains(ref)) container.insertBefore(p, ref.nextSibling);
+    else container.appendChild(p);
+    markUnsaved(); pushSnapshot(true);
+    p.focus();
+    const range = doc.createRange(); range.selectNodeContents(p);
+    const sel = frame.contentWindow.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+    toast('Text block added — start typing!','ok');
+  });
+
+  // ── Right-click context menu ────────────────────────────────
+  let ctx = doc.getElementById('__adm_ctx');
+  if(!ctx){
+    ctx = doc.createElement('div');
+    ctx.id = '__adm_ctx'; ctx.setAttribute('data-adm','1');
+    ctx.style.cssText = 'position:fixed;z-index:2147483647;background:#1e2128;border:1px solid #374151;border-radius:9px;padding:.3rem;min-width:180px;box-shadow:0 12px 32px rgba(0,0,0,.55);display:none;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;';
+    doc.body.appendChild(ctx);
+  }
+  function hideCtx(){ ctx.style.display='none'; }
+  function ctxSep(){ const d=doc.createElement('div'); d.style.cssText='height:1px;background:#2e323b;margin:.25rem .4rem;'; return d; }
+  function ctxLabel(text){ const d=doc.createElement('div'); d.style.cssText='padding:.2rem .65rem;color:#4b5563;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;'; d.textContent=text; return d; }
+  function ctxBtn(label, svgPath, action, danger){
+    const b=doc.createElement('button');
+    b.style.cssText=`display:flex;align-items:center;gap:.45rem;width:100%;padding:.4rem .65rem;border:none;background:none;color:${danger?'#f87171':'#e5e7eb'};font-size:.81rem;font-weight:500;cursor:pointer;border-radius:6px;text-align:left;white-space:nowrap;font-family:inherit;`;
+    b.innerHTML=`<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svgPath}</svg><span>${label}</span>`;
+    b.onmouseenter=()=>b.style.background=danger?'rgba(239,68,68,.15)':'rgba(255,255,255,.07)';
+    b.onmouseleave=()=>b.style.background='none';
+    b.onclick=(e)=>{ e.stopPropagation(); hideCtx(); action(); };
+    return b;
+  }
+  function makeP(){
+    const p=doc.createElement('p');
+    p.textContent='Your text here — click to edit';
+    p.style.cssText='line-height:1.8;margin:.75rem 0;cursor:text;';
+    p.classList.add('__ae'); p.setAttribute('contenteditable','true'); p.setAttribute('data-adm-edit','1');
+    p.addEventListener('focus',()=>{ window.__adm_el=p; updateFmtHint(p.textContent.trim().slice(0,30)||'element'); });
+    p.addEventListener('input',()=>{ markUnsaved(); scheduleSnapshot(); });
+    p.addEventListener('blur',()=>{ setTimeout(()=>{ if(window.__adm_el===p) updateFmtHint(null); },200); });
+    return p;
+  }
+  function focusAll(el){
+    el.focus();
+    try{ const r=doc.createRange(); r.selectNodeContents(el); const s=frame.contentWindow.getSelection(); s.removeAllRanges(); s.addRange(r); }catch(e){}
+  }
+
+  doc.addEventListener('contextmenu', e => {
+    e.preventDefault(); hideCtx(); ctx.innerHTML='';
+    const t = e.target;
+    const isImg  = t.tagName==='IMG';
+    const link   = !isImg && t.closest('a');
+    const ae     = t.closest('.__ae');
+    const card   = t.closest('.card,.photo-card,.faq-item');
+    const sec    = t.closest('section,.stats-bar,.cta-banner,.urgency-alert,.partner-banner,.photo-strip,.story-grid');
+    let any = false;
+
+    if(isImg){
+      ctx.appendChild(ctxLabel('Image'));
+      ctx.appendChild(ctxBtn('Replace image','<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',()=>{
+        openPicker(name=>{ t.src=name; markUnsaved(); pushSnapshot(true); toast('Image replaced','ok'); });
+      }));
+      ctx.appendChild(ctxBtn('Copy image filename','<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',()=>{
+        const src=t.getAttribute('src')||''; const name=src.split('/').pop(); copyTxt(name);
+      }));
+      ctx.appendChild(ctxBtn('Delete image','<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',()=>{
+        pushSnapshot(); t.remove(); markUnsaved(); pushSnapshot(true); toast('Image deleted. Ctrl+Z to undo.','ok');
+      },true));
+      any=true;
+    }
+
+    if(link){
+      if(any) ctx.appendChild(ctxSep());
+      ctx.appendChild(ctxLabel('Link'));
+      ctx.appendChild(ctxBtn('Edit URL','<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',()=>{
+        const cur=link.getAttribute('href')||'';
+        const v=prompt('Link URL:',cur);
+        if(v!==null){ link.setAttribute('href',v); markUnsaved(); pushSnapshot(true); toast('Link updated','ok'); }
+      }));
+      ctx.appendChild(ctxBtn('Remove link (keep text)','<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',()=>{
+        pushSnapshot();
+        const span=doc.createElement('span'); span.innerHTML=link.innerHTML;
+        link.parentNode.replaceChild(span,link);
+        markUnsaved(); pushSnapshot(true); toast('Link removed','ok');
+      },true));
+      any=true;
+    }
+
+    if(ae && !isImg){
+      if(any) ctx.appendChild(ctxSep());
+      ctx.appendChild(ctxLabel('Text element'));
+      ctx.appendChild(ctxBtn('Add text above','<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',()=>{
+        const p=makeP(); ae.parentNode.insertBefore(p,ae);
+        markUnsaved(); pushSnapshot(true); focusAll(p); toast('Text added — start typing!','ok');
+      }));
+      ctx.appendChild(ctxBtn('Add text below','<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',()=>{
+        const p=makeP(); ae.parentNode.insertBefore(p,ae.nextSibling);
+        markUnsaved(); pushSnapshot(true); focusAll(p); toast('Text added — start typing!','ok');
+      }));
+      ctx.appendChild(ctxBtn('Delete this element','<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',()=>{
+        pushSnapshot(); ae.remove(); markUnsaved(); pushSnapshot(true); toast('Deleted. Ctrl+Z to undo.','ok');
+      },true));
+      any=true;
+    }
+
+    if(card){
+      if(any) ctx.appendChild(ctxSep());
+      ctx.appendChild(ctxLabel('Card'));
+      ctx.appendChild(ctxBtn('Duplicate card','<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',()=>{
+        pushSnapshot();
+        const cl=card.cloneNode(true);
+        cl.querySelectorAll('[data-adm],.__ac').forEach(el=>el.remove());
+        cl.querySelectorAll('.__ae,.__aw,.__aw-card').forEach(el=>{ el.classList.remove('__ae','__aw','__aw-card'); el.removeAttribute('contenteditable'); el.removeAttribute('data-adm-edit'); });
+        card.parentNode.insertBefore(cl,card.nextSibling);
+        markUnsaved(); if(editMode) injectEditor(); pushSnapshot(true); toast('Card duplicated','ok');
+      }));
+      ctx.appendChild(ctxBtn('Remove card','<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',()=>{
+        pushSnapshot(); card.remove(); markUnsaved(); pushSnapshot(true); toast('Card removed. Ctrl+Z to undo.','ok');
+      },true));
+      any=true;
+    }
+
+    if(sec && !card){
+      if(any) ctx.appendChild(ctxSep());
+      ctx.appendChild(ctxLabel('Section'));
+      ctx.appendChild(ctxBtn('Move up','<polyline points="18 15 12 9 6 15"/>',()=>{
+        const p=sec.previousElementSibling; if(p){ sec.parentNode.insertBefore(sec,p); markUnsaved(); pushSnapshot(true); toast('Moved up','ok'); }
+      }));
+      ctx.appendChild(ctxBtn('Move down','<polyline points="6 9 12 15 18 9"/>',()=>{
+        const n=sec.nextElementSibling; if(n){ n.parentNode.insertBefore(n,sec); markUnsaved(); pushSnapshot(true); toast('Moved down','ok'); }
+      }));
+      ctx.appendChild(ctxBtn('Duplicate section','<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',()=>{
+        pushSnapshot();
+        const cl=sec.cloneNode(true);
+        cl.querySelectorAll('[data-adm],.__ac').forEach(el=>el.remove());
+        cl.querySelectorAll('.__ae,.__aw,.__aw-card').forEach(el=>{ el.classList.remove('__ae','__aw','__aw-card'); el.removeAttribute('contenteditable'); el.removeAttribute('data-adm-edit'); });
+        sec.parentNode.insertBefore(cl,sec.nextSibling);
+        markUnsaved(); if(editMode) injectEditor(); pushSnapshot(true); toast('Section duplicated','ok');
+      }));
+      ctx.appendChild(ctxBtn('Delete section','<polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>',()=>{
+        pushSnapshot(); sec.remove(); markUnsaved(); pushSnapshot(true); toast('Section deleted. Ctrl+Z to undo.','ok');
+      },true));
+      any=true;
+    }
+
+    if(!any) return;
+    ctx.style.display='block';
+    const vw=doc.documentElement.clientWidth, vh=doc.documentElement.clientHeight;
+    ctx.style.left=e.clientX+'px'; ctx.style.top=e.clientY+'px';
+    const r=ctx.getBoundingClientRect();
+    if(r.right>vw) ctx.style.left=(e.clientX-r.width)+'px';
+    if(r.bottom>vh) ctx.style.top=(e.clientY-r.height)+'px';
+  });
+  doc.addEventListener('click', ()=>hideCtx());
+  doc.addEventListener('scroll', ()=>hideCtx(), true);
+  doc.addEventListener('keydown', e=>{ if(e.key==='Escape') hideCtx(); });
+
+  // Image drag-drop into page
+  let lastDrop = null;
+  doc.addEventListener('dragover', e => {
+    e.preventDefault(); e.dataTransfer.dropEffect = 'copy';
+    const target = doc.elementFromPoint(e.clientX, e.clientY);
+    const zone = target?.closest('section,div.container,.card__body,article') || target;
+    if(zone !== lastDrop){
+      lastDrop?.classList.remove('__drop');
+      if(zone && zone!==doc.body && zone!==doc.documentElement){ zone.classList.add('__drop'); lastDrop = zone; }
+    }
+  });
+  doc.addEventListener('dragleave', e => {
+    if(!doc.contains(e.relatedTarget)){ lastDrop?.classList.remove('__drop'); lastDrop = null; }
+  });
+  doc.addEventListener('drop', e => {
+    e.preventDefault();
+    lastDrop?.classList.remove('__drop'); lastDrop = null;
+    const imgName = window.parent._dragImg;
+    if(!imgName) return;
+    window.parent._dragImg = null;
+    const isVid = /\.(mp4|webm|mov|m4v|avi)$/i.test(imgName);
+    let el;
+    if(isVid){
+      el = doc.createElement('video');
+      el.src = imgName; el.controls = true; el.style.cssText = 'max-width:100%;display:block;border-radius:6px;margin:.75rem auto;';
+    } else {
+      el = doc.createElement('img');
+      el.src = imgName; el.alt = ''; el.style.cssText = 'max-width:100%;height:auto;display:block;border-radius:6px;margin:.75rem auto;';
+    }
+    const target = doc.elementFromPoint(e.clientX, e.clientY);
+    const into   = target?.closest('section,.container,.card__body') || doc.body;
+    let ref = target;
+    while(ref && ref.parentElement !== into) ref = ref.parentElement;
+    if(ref && into.contains(ref)) into.insertBefore(el, ref.nextSibling);
+    else into.appendChild(el);
+    markUnsaved(); pushSnapshot(true);
+    window.parent.toast(isVid ? 'Video placed on page' : 'Image placed on page','ok');
+  });
+}
+
+function updateFmtHint(label){
+  document.getElementById('fmt-hint').textContent = label ? 'Editing: '+label : 'Click a text element first';
+}
+
+function removeEditor(){
+  const doc = frame.contentDocument;
+  if(!doc) return;
+  doc.querySelectorAll('[data-adm], #__adm_st').forEach(el=>el.remove());
+  doc.querySelectorAll('.__ae').forEach(el=>{ el.classList.remove('__ae'); el.removeAttribute('contenteditable'); el.removeAttribute('data-adm-edit'); });
+  doc.querySelectorAll('.__aw').forEach(el=>el.classList.remove('__aw'));
+  doc.querySelectorAll('.__ac').forEach(el=>el.remove());
+}
+
+// ── Format bar ─────────────────────────────────────────────
+function getTarget(){
+  const el = window.__adm_el;
+  if(!el) { toast('Click a text element first to format it'); return null; }
+  return el;
+}
+function getSection(el){
+  let s = el;
+  while(s && s.tagName !== 'SECTION' && s !== frame.contentDocument?.body) s = s.parentElement;
+  return (s && s.tagName==='SECTION') ? s : null;
+}
+
+document.getElementById('fb-bold').onclick      = () => frame.contentDocument?.execCommand('bold');
+document.getElementById('fb-italic').onclick    = () => frame.contentDocument?.execCommand('italic');
+document.getElementById('fb-underline').onclick = () => frame.contentDocument?.execCommand('underline');
+
+document.getElementById('fb-size').onchange = function(){
+  const el = getTarget(); if(!el) return;
+  el.style.fontSize = this.value;
+  markUnsaved(); scheduleSnapshot(); this.value = '';
+};
+
+document.querySelectorAll('.fmtbar [data-align]').forEach(btn => {
+  btn.onclick = () => {
+    const el = getTarget(); if(!el) return;
+    let block = el;
+    while(block && !['DIV','P','H1','H2','H3','H4','H5','H6','LI','SECTION'].includes(block.tagName)) block = block.parentElement;
+    (block||el).style.textAlign = btn.dataset.align;
+    markUnsaved(); scheduleSnapshot();
+  };
+});
+
+// Text color
+document.getElementById('fcolor-text-btn').onclick = () => document.getElementById('fb-color').click();
+document.getElementById('fb-color').oninput = function(){
+  document.getElementById('fcolor-text-swatch').style.background = this.value;
+  const el = getTarget(); if(!el) return;
+  el.style.color = this.value; markUnsaved(); scheduleSnapshot();
+};
+
+// Background color (on element)
+document.getElementById('fcolor-bg-btn').onclick = () => document.getElementById('fb-bgcolor').click();
+document.getElementById('fb-bgcolor').oninput = function(){
+  document.getElementById('fcolor-bg-swatch').style.background = this.value;
+  const el = getTarget(); if(!el) return;
+  el.style.backgroundColor = this.value; markUnsaved(); scheduleSnapshot();
+};
+
+// Section background color
+document.getElementById('fcolor-secbg-btn').onclick = () => document.getElementById('fb-secbg').click();
+document.getElementById('fb-secbg').oninput = function(){
+  document.getElementById('fcolor-secbg-swatch').style.background = this.value;
+  const el = getTarget(); if(!el) return;
+  const s = getSection(el);
+  if(!s){ toast('Click text inside a section first'); return; }
+  s.style.backgroundColor = this.value;
+  markUnsaved(); scheduleSnapshot();
+};
+
+// Section background photo
+document.getElementById('fb-sec-photo').onclick = () => {
+  const el = getTarget(); if(!el) return;
+  openPicker(imgName => {
+    const s = getSection(el);
+    if(!s){ toast('Click text inside a section first'); return; }
+    s.style.backgroundImage    = `url('${imgName}')`;
+    s.style.backgroundSize     = 'cover';
+    s.style.backgroundPosition = 'center';
+    s.style.backgroundRepeat   = 'no-repeat';
+    markUnsaved(); scheduleSnapshot();
+    toast('Background photo set','ok');
+  });
+};
+
+// Remove section background photo
+document.getElementById('fb-sec-photo-remove').onclick = () => {
+  const el = getTarget(); if(!el) return;
+  const s = getSection(el);
+  if(!s){ toast('Click text inside a section first'); return; }
+  s.style.backgroundImage = '';
+  markUnsaved(); scheduleSnapshot();
+  toast('Background photo removed','ok');
+};
+
+// Add text block (inserts paragraph after focused element, or before footer)
+document.getElementById('fb-add-text').onclick = () => {
+  if(!editMode) return;
+  const doc = frame.contentDocument; if(!doc) return;
+  const p = doc.createElement('p');
+  p.textContent = 'Your text here — click to edit';
+  p.style.cssText = 'line-height:1.8;margin:.75rem 0;cursor:text;';
+  p.classList.add('__ae');
+  p.setAttribute('contenteditable','true');
+  p.setAttribute('data-adm-edit','1');
+  p.addEventListener('focus', () => { window.__adm_el = p; updateFmtHint(p.textContent.trim().slice(0,30)||'element'); });
+  p.addEventListener('input', () => { markUnsaved(); scheduleSnapshot(); });
+  p.addEventListener('blur', () => { setTimeout(()=>{ if(window.__adm_el===p) updateFmtHint(null); }, 200); });
+  const el = window.__adm_el;
+  if(el && el.parentNode) {
+    el.parentNode.insertBefore(p, el.nextSibling);
+  } else {
+    const footer = doc.querySelector('footer');
+    if(footer) footer.parentNode.insertBefore(p, footer);
+    else doc.body.appendChild(p);
+  }
+  markUnsaved(); pushSnapshot(true);
+  p.focus();
+  const range = doc.createRange(); range.selectNodeContents(p);
+  const sel = frame.contentWindow.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  toast('Text block added — start typing!','ok');
+};
+
+// ── Source editor ──────────────────────────────────────────
+document.getElementById('btn-source').onclick = () => toggleSrc(!srcMode);
+function toggleSrc(on){
+  srcMode = on;
+  const fw  = document.getElementById('frame-wrap');
+  const se  = document.getElementById('src-editor');
+  const btn = document.getElementById('btn-source');
+  if(on){
+    document.getElementById('src-ta').value = frame.contentDocument ? cleanHTML() : '';
+    fw.style.display='none'; se.classList.add('on'); btn.classList.add('on');
+    btn.innerHTML = btn.innerHTML.replace('Source','Preview');
+    if(editMode) disableEdit();
+    setStatus('Editing raw HTML source. Click Preview to return.');
+  } else {
+    const html = document.getElementById('src-ta').value.trim();
+    if(curPage && html){ frame.srcdoc = injectBase(html); frame.onload = ()=>{ if(editMode) injectEditor(); }; }
+    fw.style.display=''; se.classList.remove('on'); btn.classList.remove('on');
+    btn.innerHTML = btn.innerHTML.replace('Preview','Source');
+    setStatus('Editing: '+curPage);
+  }
+}
+
+// ── Save ───────────────────────────────────────────────────
+document.getElementById('btn-save').onclick = savePage;
+async function savePage(){
+  if(!curPage) return toast('No page loaded');
+  setStatus('Saving…');
+  const content = srcMode ? document.getElementById('src-ta').value : cleanHTML();
+  const r = await fetch('/api/page/'+curPage,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content})});
+  if(r.ok){ markSaved(); toast('Saved: '+curPage,'ok'); setStatus('Saved — '+curPage); }
+  else toast('Save failed','err');
+}
+
+function cleanHTML(){
+  if(!frame.contentDocument) return '';
+  const clone = frame.contentDocument.documentElement.cloneNode(true);
+  clone.querySelectorAll('[data-adm], #__adm_st').forEach(el=>el.remove());
+  clone.querySelectorAll('.__ae').forEach(el=>{ el.classList.remove('__ae'); el.removeAttribute('contenteditable'); el.removeAttribute('data-adm-edit'); });
+  clone.querySelectorAll('.__aw').forEach(el=>el.classList.remove('__aw'));
+  clone.querySelectorAll('.__ac,.__drop').forEach(el=>{ el.classList.remove('__drop'); if(el.classList.contains('__ac')) el.remove(); });
+  clone.querySelectorAll('base').forEach(el=>el.remove());
+  return '<!DOCTYPE html>\n' + clone.outerHTML;
+}
+
+// ── Nav manager ────────────────────────────────────────────
+function loadNav(){
+  if(!frame.contentDocument){ document.getElementById('nav-list').innerHTML='<p class="hint">Load a page first.</p>'; return; }
+  const doc  = frame.contentDocument;
+  const list = doc.querySelectorAll('.navbar__nav li');
+  const el   = document.getElementById('nav-list');
+  el.innerHTML = '';
+  list.forEach(li => {
+    const a = li.querySelector('a'); if(!a) return;
+    const row = document.createElement('div');
+    row.className = 'nav-row';
+    row.innerHTML = `<div class="nav-info"><div class="nav-label">${a.textContent.trim()}</div><div class="nav-href">${a.getAttribute('href')||''}</div></div>
+      <div class="nav-btns">
+        <button class="nav-edit-btn" title="Edit"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="nav-del-btn" title="Remove"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+      </div>`;
+    row.querySelector('.nav-edit-btn').onclick = () => inlineEditNav(li, a, row);
+    row.querySelector('.nav-del-btn').onclick  = () => { li.remove(); markUnsaved(); loadNav(); pushSnapshot(true); toast('Nav link removed','ok'); };
+    el.appendChild(row);
+  });
+  if(!list.length) el.innerHTML = '<p class="hint">No navigation links found on this page.</p>';
+}
+function inlineEditNav(li, a, rowEl){
+  const f = document.createElement('div');
+  f.className = 'nav-add-form on'; f.style.marginTop='4px';
+  f.innerHTML = `<label>Link Text</label><input type="text" value="${a.textContent.trim()}" id="ie-label"/>
+    <label>URL</label><input type="text" value="${a.getAttribute('href')||''}" id="ie-href"/>
+    <div style="display:flex;gap:.4rem">
+      <button class="btn btn-primary" style="flex:1;justify-content:center;font-size:.78rem;padding:.38rem" id="ie-ok">Update</button>
+      <button class="btn btn-ghost" style="font-size:.78rem;padding:.38rem .6rem" id="ie-cancel">Cancel</button>
+    </div>`;
+  rowEl.insertAdjacentElement('afterend', f);
+  document.getElementById('ie-cancel').onclick = ()=>f.remove();
+  document.getElementById('ie-ok').onclick = () => {
+    const lb = document.getElementById('ie-label').value.trim();
+    const hr = document.getElementById('ie-href').value.trim();
+    if(!lb) return toast('Enter a label');
+    a.textContent = lb; a.setAttribute('href', hr);
+    markUnsaved(); pushSnapshot(true); f.remove(); loadNav();
+  };
+}
+document.getElementById('btn-add-nav-toggle').onclick = () => {
+  const f = document.getElementById('nav-add-form');
+  f.classList.toggle('on');
+  if(f.classList.contains('on')) document.getElementById('nav-new-label').focus();
+};
+document.getElementById('btn-nav-cancel').onclick  = () => document.getElementById('nav-add-form').classList.remove('on');
+document.getElementById('btn-nav-confirm').onclick = () => {
+  const label = document.getElementById('nav-new-label').value.trim();
+  const href  = document.getElementById('nav-new-href').value.trim();
+  if(!label) return toast('Enter a link label');
+  if(!frame.contentDocument) return toast('Load a page first');
+  const nav = frame.contentDocument.querySelector('.navbar__nav');
+  if(!nav) return toast('No navbar found');
+  const li = frame.contentDocument.createElement('li');
+  li.innerHTML = `<a href="${href||'#'}" class="navbar__link">${label}</a>`;
+  nav.appendChild(li);
+  markUnsaved(); pushSnapshot(true);
+  document.getElementById('nav-new-label').value = '';
+  document.getElementById('nav-new-href').value  = '';
+  document.getElementById('nav-add-form').classList.remove('on');
+  loadNav(); toast('Nav link added — Save to keep it','ok');
+};
+document.getElementById('btn-sync-nav').onclick = async () => {
+  if(!frame.contentDocument) return toast('Load a page first');
+  const nav = frame.contentDocument.querySelector('.navbar__nav');
+  if(!nav) return toast('No navbar found');
+  showConfirm('Sync Navigation','Update the navigation on ALL pages of the site?','This applies current nav links to every page.','Sync All','btn-success', async () => {
+    const r = await fetch('/api/nav-sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({navHTML:nav.innerHTML})});
+    const d = await r.json();
+    if(d.ok) toast(`Synced to ${d.updated.length} pages`,'ok');
+    else toast('Sync failed','err');
+  });
+};
+
+// ── Images & Videos ────────────────────────────────────────
+const isVideo = n => /\.(mp4|webm|mov|m4v|avi)$/i.test(n);
+async function loadImages(){
+  const imgs = await fetch('/api/images').then(r=>r.json());
+  renderGrid(imgs, 'img-grid', true);
+  renderGrid(imgs, 'picker-grid', false);
+}
+function renderGrid(imgs, id, withDel){
+  const el = document.getElementById(id); if(!el) return;
+  el.innerHTML = '';
+  imgs.forEach(name => {
+    const url = '/site/'+name;
+    if(withDel){
+      const card = document.createElement('div');
+      card.className = 'img-card';
+      card.setAttribute('draggable','true');
+      card.title = 'Drag onto page to insert';
+      if(isVideo(name)){
+        card.innerHTML = `<video src="${url}" muted preload="metadata" style="width:100%;display:block;"></video>
+          <div class="img-play-icon" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-size:2rem;pointer-events:none;">&#9654;</div>
+          <div class="img-overlay">
+            <button class="btn btn-ghost" style="font-size:.7rem;padding:.28rem .5rem;background:rgba(255,255,255,.88);color:#111" onclick="copyTxt('${name}')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy
+            </button>
+            <button class="btn btn-danger" style="font-size:.7rem;padding:.28rem .5rem" onclick="deleteImg('${name}')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg> Delete
+            </button>
+          </div>`;
+      } else {
+        card.innerHTML = `<img src="${url}" alt="${name}" loading="lazy">
+          <div class="img-overlay">
+            <button class="btn btn-ghost" style="font-size:.7rem;padding:.28rem .5rem;background:rgba(255,255,255,.88);color:#111" onclick="copyTxt('${name}')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy
+            </button>
+            <button class="btn btn-danger" style="font-size:.7rem;padding:.28rem .5rem" onclick="deleteImg('${name}')">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg> Delete
+            </button>
+          </div>`;
+      }
+      card.addEventListener('dragstart', e => {
+        window._dragImg = name;
+        e.dataTransfer.effectAllowed = 'copy';
+        e.dataTransfer.setData('text/plain', name);
+      });
+      const nm = document.createElement('div');
+      nm.className = 'img-name'; nm.textContent = name;
+      card.appendChild(nm);
+      el.appendChild(card);
+    } else {
+      const item = document.createElement('div');
+      item.className = 'picker-item'; item.title = name;
+      if(isVideo(name)){
+        item.innerHTML = `<video src="${url}" muted preload="metadata" style="width:100%;display:block;"></video>
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);font-size:1.5rem;pointer-events:none;">&#9654;</div>`;
+      } else {
+        item.innerHTML = `<img src="${url}" alt="${name}" loading="lazy">`;
+      }
+      item.onclick = () => { if(pickerCb){ pickerCb(name); pickerCb = null; } else copyTxt(name); closeModal('modal-picker'); };
+      const nm = document.createElement('div');
+      nm.className = 'picker-name'; nm.textContent = name;
+      item.appendChild(nm);
+      el.appendChild(item);
+    }
+  });
+}
+async function deleteImg(name){
+  showConfirm('Delete image', `Delete "${name}"?`, 'This cannot be undone.', 'Delete image', 'btn-danger', async () => {
+    const r = await fetch('/api/images/'+encodeURIComponent(name),{method:'DELETE'});
+    if(r.ok){ toast('Deleted','ok'); loadImages(); }
+    else toast('Delete failed','err');
+  });
+}
+function openPicker(cb){
+  pickerCb = cb;
+  loadImages();
+  openModal('modal-picker');
+}
+const uploadInput = document.getElementById('img-upload');
+const uploadZone  = document.getElementById('upload-zone');
+uploadInput.onchange = () => uploadFiles(uploadInput.files);
+uploadZone.ondragover = e => { e.preventDefault(); uploadZone.classList.add('drag'); };
+uploadZone.ondragleave = () => uploadZone.classList.remove('drag');
+uploadZone.ondrop = e => { e.preventDefault(); uploadZone.classList.remove('drag'); uploadFiles(e.dataTransfer.files); };
+async function uploadFiles(files){
+  for(const f of files){
+    const fd = new FormData(); fd.append('image',f);
+    setStatus('Uploading '+f.name+'…');
+    const r = await fetch('/api/images',{method:'POST',body:fd});
+    if(r.ok) toast('Uploaded: '+(await r.json()).name,'ok');
+    else toast('Upload failed','err');
+  }
+  loadImages(); setStatus(curPage?'Editing: '+curPage:'Ready');
+}
+function copyTxt(t){
+  navigator.clipboard.writeText(t).catch(()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); });
+  toast('Copied: '+t,'ok');
+}
+
+// ── Meta ───────────────────────────────────────────────────
+function loadMeta(){
+  if(!frame.contentDocument) return;
+  const doc = frame.contentDocument;
+  const get = (sel,a) => { const el=doc.head.querySelector(sel); return el?el.getAttribute(a):''; };
+  const f   = document.getElementById('meta-form');
+  f.title.value         = doc.title || '';
+  f.description.value   = get('meta[name="description"]','content');
+  f.ogTitle.value       = get('meta[property="og:title"]','content');
+  f.ogDescription.value = get('meta[property="og:description"]','content');
+  f.ogImage.value       = get('meta[property="og:image"]','content');
+}
+document.getElementById('meta-form').onsubmit = e => {
+  e.preventDefault();
+  if(!frame.contentDocument) return toast('Load a page first');
+  const doc = frame.contentDocument; const f = e.target;
+  const set = (sel,attr,val) => { let el=doc.head.querySelector(sel); if(!el){el=doc.createElement('meta'); if(sel.includes('name=')) el.name=sel.match(/name="([^"]+)"/)[1]; if(sel.includes('property=')) el.setAttribute('property',sel.match(/property="([^"]+)"/)[1]); doc.head.appendChild(el);} el.setAttribute(attr,val); };
+  if(f.title.value)         doc.title = f.title.value;
+  if(f.description.value)   set('meta[name="description"]','content',f.description.value);
+  if(f.ogTitle.value)       set('meta[property="og:title"]','content',f.ogTitle.value);
+  if(f.ogDescription.value) set('meta[property="og:description"]','content',f.ogDescription.value);
+  if(f.ogImage.value)       set('meta[property="og:image"]','content',f.ogImage.value);
+  markUnsaved(); toast('Meta updated — click Save to persist','ok');
+};
+
+// ── Components ─────────────────────────────────────────────
+const COMPS=[
+  {l:'3-Column Cards',k:'cards3',p:'M4 6h16M4 10h16M4 14h16M4 18h7'},
+  {l:'Stats Bar',k:'stats',p:'M18 20V10M12 20V4M6 20v-6'},
+  {l:'Urgent Alert Banner',k:'alert',p:'M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01'},
+  {l:'CTA Donate Banner',k:'cta',p:'M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'},
+  {l:'Text Section',k:'text',p:'M4 6h16M4 12h16M4 18h7'},
+  {l:'Photo Strip',k:'photos',p:'M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2zM12 17a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'},
+  {l:'Text + Image',k:'story',p:'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'},
+  {l:'Donation Section',k:'donate',p:'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'},
+  {l:'Partner Block',k:'partner',p:'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z'},
+  {l:'Contact Info',k:'contact',p:'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z'},
+  {l:'Single Card',k:'card1',p:'M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z'},
+  {l:'FAQ Section',k:'faq',p:'M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z'},
+];
+const COMP_HTML={
+cards3:`<section class="section"><div class="container"><div class="text-center" style="margin-bottom:3rem"><span class="section-label">What We Do</span><h2 class="section-title">Section Title</h2><div class="divider divider--center"></div><p class="section-subtitle">Supporting text for this section.</p></div><div class="card-grid card-grid--3"><div class="card fade-up"><div class="card__icon-band card__icon-band--gold"></div><div class="card__body"><h3 class="card__title">Card Title One</h3><p class="card__text">Description for this card. Explain what this is about.</p><a href="#" class="card__link">Learn more →</a></div></div><div class="card fade-up"><div class="card__icon-band card__icon-band--blue"></div><div class="card__body"><h3 class="card__title">Card Title Two</h3><p class="card__text">Description for this card. Explain what this is about.</p><a href="#" class="card__link">Learn more →</a></div></div><div class="card fade-up"><div class="card__icon-band card__icon-band--green"></div><div class="card__body"><h3 class="card__title">Card Title Three</h3><p class="card__text">Description for this card. Explain what this is about.</p><a href="#" class="card__link">Learn more →</a></div></div></div></div></section>`,
+stats:`<div class="stats-bar"><div class="container"><div class="stats-bar__grid"><div class="stat"><div class="stat__number" data-count="100" data-suffix="+">100+</div><div class="stat__label">Label One</div></div><div class="stat"><div class="stat__number" data-count="5">5</div><div class="stat__label">Label Two</div></div><div class="stat"><div class="stat__number" data-count="10">10</div><div class="stat__label">Label Three</div></div><div class="stat"><div class="stat__number" data-count="50" data-suffix="+">50+</div><div class="stat__label">Label Four</div></div></div></div></div>`,
+alert:`<section class="section"><div class="container"><div class="urgency-alert"><div class="urgency-alert__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0zM12 9v4M12 17h.01"/></svg></div><div><h3 class="urgency-alert__title">Urgent Campaign Title</h3><p class="urgency-alert__text">Describe the urgent need here. <strong>Your donation can change this.</strong></p></div><a href="donate.html" class="btn btn--outline-dark" style="flex-shrink:0;margin-left:auto">Donate Now</a></div></div></section>`,
+cta:`<section class="cta-banner"><div class="container"><span class="cta-banner__eyebrow">Make a Difference Today</span><h2 class="cta-banner__title">Your Headline Here</h2><p class="cta-banner__text">Supporting text explaining the call to action and why it matters.</p><div class="cta-banner__actions"><a href="donate.html" class="btn btn--gold btn--lg">Donate Now</a><a href="contact.html" class="btn btn--outline btn--lg">Contact Us</a></div></div></section>`,
+text:`<section class="section"><div class="container" style="max-width:800px"><span class="section-label">Section Label</span><h2 class="section-title">Section Heading</h2><div class="divider"></div><p style="color:var(--dark-gray);line-height:1.8;margin-bottom:1rem">First paragraph text. Write anything relevant to this section.</p><p style="color:var(--dark-gray);line-height:1.8;margin-bottom:1rem">Second paragraph with more detail and supporting information.</p><a href="#" class="btn btn--primary" style="margin-top:.5rem">Call to Action</a></div></section>`,
+photos:`<section class="section" style="padding-top:0;padding-bottom:3rem"><div class="container"><div class="text-center" style="margin-bottom:1.75rem"><span class="section-label">Photo Gallery</span><h2 class="section-title" style="font-size:clamp(1.4rem,2.5vw,2rem)">Gallery Title</h2></div><div class="photo-strip"><div class="photo-card photo-card--tall"><img src="IMG_0568.WEBP" alt="Photo"/><div class="photo-card__caption">Caption one</div></div><div class="photo-card photo-card--tall"><img src="777186588_38260471500217781_2528621645228580944_n.jpg" alt="Photo"/><div class="photo-card__caption">Caption two</div></div><div class="photo-card photo-card--tall"><img src="778231257_38260473110217620_47152937520564275_n.jpg" alt="Photo"/><div class="photo-card__caption">Caption three</div></div><div class="photo-card photo-card--tall"><img src="IMG_0570.WEBP" alt="Photo"/><div class="photo-card__caption">Caption four</div></div></div></div></section>`,
+story:`<section class="section section--alt"><div class="container"><div class="story-grid"><div class="story__visual fade-up"><div class="founder-portrait"><img src="SImon.jpg" alt="Person Name"/><div class="founder-portrait__badge"><div class="founder-portrait__badge-name">Person Name</div><div class="founder-portrait__badge-title">Their Title</div></div></div></div><div class="fade-up"><span class="story__label">Their Story</span><h2 class="story__title">Headline About This Person</h2><div class="divider"></div><p class="story__text">First paragraph about this person. Who are they, where are they from?</p><p class="story__text">Second paragraph. What did they achieve? What challenges did they overcome?</p><p class="story__text">Third paragraph — the impact of their work.</p><a href="about.html" class="btn btn--primary" style="margin-top:1rem">Read Full Story</a></div></div></div></section>`,
+donate:`<section class="section"><div class="container" style="max-width:700px;text-align:center"><span class="section-label">Support Our Work</span><h2 class="section-title">Every Dollar Makes a Difference</h2><div class="divider divider--center"></div><p style="color:var(--dark-gray);line-height:1.8;margin-bottom:2rem">Explain what donations go toward and the specific impact they make.</p><div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap"><a href="donate.html" class="btn btn--gold btn--lg">Donate Now</a><a href="https://www.gofundme.com" target="_blank" rel="noopener" class="btn btn--outline-dark btn--lg">GoFundMe</a></div><p style="margin-top:1.5rem;font-size:.85rem;color:var(--mid-gray)">AYAA is a registered 501(c)(3) nonprofit. EIN: 88-3720394.</p></div></section>`,
+partner:`<section class="section"><div class="container"><div class="text-center" style="margin-bottom:2rem"><span class="section-label">Our Partners</span><h2 class="section-title">Working Together</h2><div class="divider divider--center"></div></div><div class="partner-banner fade-up"><div class="partner-banner__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div><div class="partner-banner__label">Official Partner</div><h3 style="font-size:1.4rem;margin-bottom:.5rem">Partner Name</h3><p style="margin:0;font-size:.95rem;color:var(--dark-gray)">Describe the partnership and what you accomplish together.</p></div></div></div></section>`,
+contact:`<section class="section"><div class="container" style="max-width:600px"><span class="section-label">Contact</span><h2 class="section-title">Get in Touch</h2><div class="divider"></div><div style="display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem"><div style="display:flex;align-items:center;gap:.75rem"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span>6907 Hollow Creek Court, Louisville, Kentucky 40228</span></div><div style="display:flex;align-items:center;gap:.75rem"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:+15022353913">(502) 235-3913</a></div><div style="display:flex;align-items:center;gap:.75rem"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:simonORealtor@gmail.com">simonORealtor@gmail.com</a></div></div></div></section>`,
+card1:`<div class="card fade-up" style="max-width:400px;margin:2rem auto"><div class="card__icon-band card__icon-band--gold"></div><div class="card__body"><h3 class="card__title">Card Title</h3><p class="card__text">Card description. Explain what this is about in one or two sentences.</p><a href="#" class="card__link">Learn more →</a></div></div>`,
+faq:`<section class="section"><div class="container" style="max-width:800px"><span class="section-label">FAQ</span><h2 class="section-title">Frequently Asked Questions</h2><div class="divider"></div><div style="margin-top:2rem;display:flex;flex-direction:column;gap:1.25rem"><div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.25rem"><h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Question one?</h3><p style="color:var(--dark-gray);line-height:1.7">Answer to question one. Be clear and thorough.</p></div><div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.25rem"><h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Question two?</h3><p style="color:var(--dark-gray);line-height:1.7">Answer to question two. Be clear and thorough.</p></div><div style="border:1px solid #e5e7eb;border-radius:8px;padding:1.25rem"><h3 style="font-size:1rem;font-weight:600;margin-bottom:.5rem">Question three?</h3><p style="color:var(--dark-gray);line-height:1.7">Answer to question three. Be clear and thorough.</p></div></div></div></section>`,
+};
+function buildComps(){
+  const list = document.getElementById('comp-list');
+  COMPS.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'comp-item';
+    d.innerHTML = `<div class="comp-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${c.p}"/></svg></div><span>${c.l}</span>`;
+    d.onclick = () => {
+      if(!curPage) return toast('Load a page first');
+      const html=COMP_HTML[c.k]; if(!html) return;
+      const doc=frame.contentDocument, footer=doc.querySelector('footer');
+      const tmp=doc.createElement('div'); tmp.innerHTML=html.trim();
+      const newEl=tmp.firstElementChild;
+      pushSnapshot();
+      if(footer) footer.parentNode.insertBefore(newEl,footer);
+      else doc.body.appendChild(newEl);
+      markUnsaved(); newEl.scrollIntoView({behavior:'smooth',block:'center'});
+      if(editMode) injectEditor();
+      pushSnapshot(true);
+      toast('Section added. Use Edit Mode to change the text.','ok');
+    };
+    list.appendChild(d);
+  });
+}
+
+// ── New page ────────────────────────────────────────────────
+document.getElementById('btn-new-page').onclick = ()=>openModal('modal-new-page');
+document.getElementById('btn-create-page').onclick = async () => {
+  const name = document.getElementById('new-page-name').value.trim();
+  if(!name) return toast('Enter a page name');
+  const r = await fetch('/api/page-new',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,copyFrom:document.getElementById('new-page-copy').value})});
+  if(r.ok){ const {name:n}=await r.json(); closeModal('modal-new-page'); document.getElementById('new-page-name').value=''; toast('Created: '+n,'ok'); await loadPageList(); loadPage(n); }
+  else toast('Failed to create page','err');
+};
+
+// ── Deploy ──────────────────────────────────────────────────
+async function triggerDeploy(){
+  const url = document.getElementById('hook-input').value.trim();
+  const st = document.getElementById('deploy-status');
+  st.style.display='block'; st.className='deploy-status ds-spin'; st.textContent='Triggering deploy…';
+  const r = await fetch('/api/deploy',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hookUrl:url})});
+  if(r.ok){ st.className='deploy-status ds-ok'; st.textContent='Deploy triggered! Site will be live in 1–2 minutes.'; toast('Deployed!','ok'); }
+  else { const {error}=await r.json().catch(()=>({})); st.className='deploy-status ds-err'; st.textContent='Failed: '+(error||'Unknown error'); toast('Deploy failed','err'); }
+}
+document.getElementById('btn-deploy-now').onclick  = triggerDeploy;
+document.getElementById('btn-deploy-top').onclick  = triggerDeploy;
+document.getElementById('cli-cmd').onclick = function(){ copyTxt(this.textContent); };
+
+async function loadDeploySettings(){ const d=await fetch('/api/settings').then(r=>r.json()); document.getElementById('hook-input').value=d.netlifyHookUrl||''; }
+
+// ── Settings ────────────────────────────────────────────────
+async function loadSettings(){ const d=await fetch('/api/settings').then(r=>r.json()); document.getElementById('settings-form').netlifyHookUrl.value=d.netlifyHookUrl||''; }
+document.getElementById('settings-form').onsubmit = async e => {
+  e.preventDefault();
+  const f=e.target, np=document.getElementById('new-pw').value, cp=document.getElementById('confirm-pw').value;
+  if(np&&np!==cp) return toast('Passwords do not match','err');
+  const payload={netlifyHookUrl:f.netlifyHookUrl.value}; if(np) payload.newPassword=np;
+  const r=await fetch('/api/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  if(r.ok){ toast('Settings saved','ok'); document.getElementById('new-pw').value=document.getElementById('confirm-pw').value=''; }
+  else toast('Failed','err');
+};
+
+// ── Keyboard shortcuts ──────────────────────────────────────
+document.addEventListener('keydown', e => {
+  const mod = e.metaKey||e.ctrlKey;
+  if(mod&&e.key==='s'){ e.preventDefault(); savePage(); }
+  if(mod&&e.key==='z'&&!e.shiftKey){ e.preventDefault(); undo(); }
+  if(mod&&(e.key==='y'||(e.key==='z'&&e.shiftKey))){ e.preventDefault(); redo(); }
+  if(mod&&e.key==='e'){ e.preventDefault(); if(curPage) editMode?disableEdit():enableEdit(); }
+});
+document.getElementById('btn-undo').onclick = undo;
+document.getElementById('btn-redo').onclick = redo;
+
+// ── Init ────────────────────────────────────────────────────
+// ── Help manual tab switcher ────────────────────────────────
+function hmTab(btn, paneId){
+  btn.closest('.hm-tabs').querySelectorAll('.hm-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.hm-pane').forEach(p=>p.classList.remove('on'));
+  document.getElementById(paneId).classList.add('on');
+}
+
+async function initAdmin(){
+  buildComps();
+  await loadPageList();
+  loadDeploySettings();
+  setStatus('Select a page from the sidebar to start editing.');
+}
+(async()=>{
+  const {ok}=await fetch('/api/auth').then(r=>r.json());
+  if(ok){ document.getElementById('login-screen').style.display='none'; document.getElementById('app').classList.add('on'); initAdmin(); }
+})();
+</script>
+</body>
+</html>

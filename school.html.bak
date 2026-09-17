@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ayaa Senior Secondary School — Magwi Center, Eastern Equatoria, South Sudan. 200+ students. Now raising funds for a Girls' Dormitory to keep female students safe." />
+  <title>Ayaa Senior Secondary School — AYAA South Sudanese Community Organization</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo" aria-label="AYAA Home">
+          <span class="navbar__logo-name">AYAA</span>
+          <span class="navbar__logo-sub">South Sudanese Community Org.</span>
+        </a>
+        <ul class="navbar__nav">
+
+          <li><a href="index.html" class="navbar__link">Home</a></li>
+          <li><a href="about.html" class="navbar__link">About</a></li>
+          <li><a href="programs.html" class="navbar__link">Programs</a></li>
+          <li><a href="school.html" class="navbar__link">The School</a></li>
+          <li><a href="contact.html" class="navbar__link">Contact</a></li>
+        
+      </ul>
+        <div class="navbar__cta">
+          <a href="donate.html" class="btn btn--primary">Donate Now</a>
+        </div>
+        <button class="navbar__hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero hero--school hero--photo" style="background-image: url('778231257_38260473110217620_47152937520564275_n.jpg');">
+    <div class="hero__overlay"></div>
+    <div class="container">
+      <div class="page-header">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb__sep">/</span>
+          <a href="programs.html">Programs</a>
+          <span class="breadcrumb__sep">/</span>
+          <span>The School</span>
+        </div>
+        <span class="page-header__label">Education in Magwi</span>
+        <h1 class="page-header__title">Ayaa Senior<br />Secondary School</h1>
+        <p class="page-header__subtitle">
+          Named for a mother. Built by a son's sacrifice. Serving 200+ students
+          in Magwi Center, Eastern Equatoria, South Sudan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SCHOOL QUICK FACTS ===== -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-bar__grid">
+        <div class="stat">
+          <div class="stat__number" data-count="200" data-suffix="+">200+</div>
+          <div class="stat__label">Students Enrolled</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="4">4</div>
+          <div class="stat__label">Grade Levels</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="2022">2022</div>
+          <div class="stat__label">Year Opened</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="5" data-suffix=" mi">5 mi</div>
+          <div class="stat__label">Girls' Daily Walk (One Way)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SCHOOL STORY ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="fade-up">
+          <span class="story__label">The School's Origin</span>
+          <h2 class="story__title">A Mother's Name. A Son's Sacrifice. A Community's Future.</h2>
+          <div class="divider"></div>
+          <p class="story__text">
+            Ayaa Senior Secondary School did not come from a grant. It did not come from
+            a corporate CSR budget or a government program. It came from one man —
+            <strong>Simon Ottaviano</strong> — who sold his Louisville home and cashed out
+            his 401(k) retirement savings because he believed the children of Magwi
+            deserved a future.
+          </p>
+          <p class="story__text">
+            He named the school <strong>Ayaa</strong> — after his mother.
+            In Acholi tradition, honoring one's mother is among the most profound expressions
+            of love and gratitude. Every child who sits in those classrooms sits under
+            the protection of her name.
+          </p>
+          <p class="story__text">
+            The school opened in <strong>2022</strong> in <strong>Magwi Center</strong>,
+            the administrative hub of Magwi County, Eastern Equatoria — the territory
+            of the Acholi people in South Sudan. From its first day, it served students
+            from Senior One through Senior Four, offering the complete secondary education
+            curriculum aligned to national standards.
+          </p>
+          <p class="story__text">
+            Today, more than <strong>200 students</strong> are enrolled — young men and women
+            from Magwi and surrounding villages who, without this school,
+            would have no secondary education option within reach.
+          </p>
+        </div>
+
+        <div class="story__visual fade-up">
+          <div class="founder-portrait" style="aspect-ratio: 4/3; max-height: 420px;">
+            <img src="493254739_29723280290603654_3983025169921132813_n.jpg" alt="Students and community at Ayaa Senior Secondary School, Magwi, South Sudan" />
+            <div class="founder-portrait__badge">
+              <div class="founder-portrait__badge-name">Ayaa Senior Secondary School</div>
+              <div class="founder-portrait__badge-title">Magwi Center, Eastern Equatoria, South Sudan &bull; Est. 2022</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHAT STUDENTS EXPERIENCE ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="text-center" style="max-width: 700px; margin: 0 auto 3rem;">
+        <span class="section-label">Life at Ayaa School</span>
+        <h2 class="section-title">What Education Looks Like in Magwi</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle">
+          For many students, Ayaa Senior Secondary School is the first
+          real opportunity their family has ever had.
+        </p>
+      </div>
+
+      <div class="card-grid card-grid--3">
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--gold"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--gold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+            <h3 class="card__title">Full Curriculum, Senior One–Four</h3>
+            <p class="card__text">
+              Ayaa Senior Secondary School offers four complete years of secondary education —
+              Senior One through Senior Four — aligned to South Sudan's national curriculum.
+              Students study mathematics, science, English, social studies, and more.
+            </p>
+          </div>
+        </div>
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--blue"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <h3 class="card__title">Serving the Whole Community</h3>
+            <p class="card__text">
+              Students come from Magwi Center and surrounding villages — some walking
+              significant distances each day. The school serves Acholi, Madi, and other
+              communities of Eastern Equatoria, reflecting the rich diversity of the region.
+            </p>
+          </div>
+        </div>
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--green"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg></div>
+            <h3 class="card__title">Pathways to University and Beyond</h3>
+            <p class="card__text">
+              A secondary education is the gateway to university, vocational training,
+              and professional careers. Ayaa's graduates will be the doctors, teachers,
+              engineers, and leaders that South Sudan desperately needs to rebuild.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PHOTO GALLERY ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 1.75rem;">
+        <span class="section-label">Photos from Magwi</span>
+        <h2 class="section-title">See the School in Action</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="school-photo-grid">
+        <div class="photo-card" style="aspect-ratio: auto; grid-row: 1/3;">
+          <img src="777186588_38260471500217781_2528621645228580944_n.jpg" alt="Students in pink uniforms studying" style="width:100%;height:100%;object-fit:cover;display:block;" />
+          <div class="photo-card__caption">Students focused on their studies — Ayaa Senior Secondary School</div>
+        </div>
+        <div class="photo-card photo-card--landscape">
+          <img src="778231257_38260473110217620_47152937520564275_n.jpg" alt="Full classroom at Ayaa school" />
+          <div class="photo-card__caption">Hundreds of students in the main learning hall</div>
+        </div>
+        <div class="photo-card photo-card--landscape">
+          <img src="IMG_0571.WEBP" alt="Students in classroom" />
+          <div class="photo-card__caption">Every seat filled — demand for education is immense</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DORMITORY SECTION ===== -->
+  <section class="section" id="dormitory">
+    <div class="container">
+      <div class="story-grid">
+        <div class="fade-up">
+          <span class="section-label" style="color: var(--ss-red);">Urgent Campaign</span>
+          <h2 class="story__title">The Girls' Walk — And Why It Must End</h2>
+          <div class="divider" style="background: var(--ss-red);"></div>
+
+          <div style="background: var(--red-light); border-left: 4px solid var(--ss-red); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: 1.5rem 2rem; margin-bottom: 1.5rem;">
+            <p style="font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--near-black); margin: 0; line-height: 1.6;">
+              "Every morning, before the sun is fully up, our girls begin walking.
+              Four miles. Five miles. Through bush, along roads that are not safe.
+              They arrive at school having already survived something before the day begins."
+            </p>
+          </div>
+
+          <p class="story__text">
+            Here is the reality for female students at Ayaa Senior Secondary School:
+            <strong>many live 4 to 5 miles away</strong>, with no transportation,
+            no dormitory, and no safe overnight option. Each school day requires
+            a round trip of up to 10 miles on foot — often in the dark,
+            often alone, always exposed.
+          </p>
+          <p class="story__text">
+            The consequences are not abstract. Girls are harassed. Girls are assaulted.
+            Girls drop out — not because they lack ability or ambition,
+            but because the journey itself becomes too dangerous.
+            Families pull their daughters from school to protect them.
+            In doing so, they sacrifice their daughters' futures to keep them safe today.
+          </p>
+          <p class="story__text">
+            This is the problem that a <strong>Girls' Dormitory</strong> solves.
+          </p>
+          <p class="story__text">
+            With on-site housing, female students from distant villages can live
+            at school safely — supervised, fed, protected.
+            They arrive at class rested, not exhausted from a predawn march.
+            They study in the evenings. They graduate. They go to university.
+            They become the women who rebuild South Sudan.
+          </p>
+        </div>
+
+        <div class="fade-up">
+          <div class="photo-impact" style="margin-bottom: 1.5rem; min-height: 260px;">
+            <img src="IMG_0568.WEBP" alt="Female student at Ayaa Senior Secondary School" />
+            <div class="photo-impact__overlay" style="padding: 1.5rem;">
+              <span class="photo-impact__label">Her Story</span>
+              <div class="photo-impact__title" style="font-size: 1.2rem;">She walks miles to get here.<br />She deserves to stay safely.</div>
+            </div>
+          </div>
+          <div style="background: linear-gradient(160deg, var(--ss-red) 0%, var(--red-dark) 100%); border-radius: var(--radius-lg); padding: 2.5rem; color: white; margin-bottom: 1.5rem;">
+            <h3 style="color: white; font-size: 1.3rem; margin-bottom: 1.5rem;">The Numbers Tell the Story</h3>
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <div style="display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.25rem;">
+                <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--ss-gold); line-height: 1; min-width: 70px;">4–5</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.85);">Miles walked by girls each way, every school day, to reach the school</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1.25rem;">
+                <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--ss-gold); line-height: 1; min-width: 70px;">10</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.85);">Miles total per day — the equivalent of a serious athletic event, before and after school</div>
+              </div>
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div style="font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--ss-gold); line-height: 1; min-width: 70px;">0</div>
+                <div style="font-size: 0.9rem; color: rgba(255,255,255,0.85);">Safe overnight housing currently available for female students from distant villages</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout callout--gold">
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem;">What the Dormitory Will Provide</h3>
+            <ul style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.6rem;">
+              <li style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.92rem;">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Safe, supervised residential housing on school grounds
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.92rem;">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Elimination of the dangerous daily commute for girls
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.92rem;">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Evening study time in a safe, well-lit environment
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.92rem;">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Increased female enrollment and retention rates
+              </li>
+              <li style="display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.92rem;">
+                <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> A permanent infrastructure investment for Magwi's girls
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WATER AT THE SCHOOL ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="story-grid story-grid--reverse">
+        <div class="story__visual fade-up">
+          <div class="photo-impact" style="min-height: 360px; border-radius: var(--radius-lg);">
+            <img src="IMG_0570.WEBP" alt="Youth community members — Magwi, South Sudan" />
+            <div class="photo-impact__overlay">
+              <span class="photo-impact__label">WaterStep Partnership</span>
+              <div class="photo-impact__title">Clean Water Changes Everything</div>
+              <p class="photo-impact__text">Healthy students. Stronger community. A future built on safe foundations.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <span class="story__label">WaterStep Partnership</span>
+          <h2 class="story__title">Clean Water at the School — Ending Bilharzia</h2>
+          <div class="divider divider--green"></div>
+          <p class="story__text">
+            A school is only as strong as the health of its students. For the people of Magwi,
+            clean water has historically been a serious challenge. The <strong>River Ayii</strong>
+            — the community's traditional water source — carries bilharzia (schistosomiasis),
+            a parasitic disease that causes chronic illness, particularly in children.
+          </p>
+          <p class="story__text">
+            AYAA's partnership with <strong>WaterStep</strong> — a Louisville-based water nonprofit —
+            is bringing a sustainable water purification system to the school and village.
+            This means students can drink safely. Teachers stay healthy. Families thrive.
+          </p>
+          <p class="story__text">
+            The connection between Louisville and Magwi, between WaterStep and AYAA,
+            is proof of what's possible when diaspora communities organize and lead.
+            Simon Ottaviano built the bridge; the water flows both ways.
+          </p>
+          <a href="programs.html#water" class="btn btn--green">Learn More About the Water Program</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW TO HELP ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center" style="max-width: 700px; margin: 0 auto 3rem;">
+        <span class="section-label">Take Action</span>
+        <h2 class="section-title">How You Can Support<br />Ayaa Senior Secondary School</h2>
+        <div class="divider divider--center"></div>
+      </div>
+
+      <div class="card-grid card-grid--3">
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--red"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--red"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
+            <h3 class="card__title">Make a Direct Donation</h3>
+            <p class="card__text">
+              Every dollar goes directly to school operations, the girls' dormitory,
+              and student support. AYAA is a 501(c)(3) — your gift is fully tax-deductible.
+            </p>
+            <a href="donate.html" class="card__link">Give online →</a>
+          </div>
+        </div>
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--gold"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--gold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="18"/><path d="M16 8h4l3 3v10h-7"/><line x1="7" y1="8" x2="10" y2="8"/><line x1="7" y1="12" x2="10" y2="12"/><line x1="7" y1="16" x2="10" y2="16"/></svg></div>
+            <h3 class="card__title">Employer Matching</h3>
+            <p class="card__text">
+              Many employers double or triple employee charitable donations.
+              Check your HR portal or ask your employer about matching gifts
+              for 501(c)(3) organizations. Double your impact at no extra cost.
+            </p>
+            <a href="donate.html#matching" class="card__link">Learn about matching →</a>
+          </div>
+        </div>
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--green"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div>
+            <h3 class="card__title">Spread the Word</h3>
+            <p class="card__text">
+              Share the story of Ayaa Senior Secondary School with your networks.
+              Every person who learns about Simon's sacrifice and the children
+              of Magwi is a potential ally, donor, or volunteer.
+            </p>
+            <a href="contact.html" class="card__link">Get in touch →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-banner">
+    <div class="container">
+      <span class="cta-banner__eyebrow">Help Build the Dormitory</span>
+      <h2 class="cta-banner__title">Keep Our Girls<br />Safe and in School</h2>
+      <p class="cta-banner__text">
+        A dormitory at Ayaa Senior Secondary School will protect hundreds of girls
+        from a dangerous daily walk and keep them enrolled, learning, and thriving.
+        This is urgent. This is solvable. Will you help?
+      </p>
+      <div class="cta-banner__actions">
+        <a href="donate.html" class="btn btn--gold btn--lg">Donate to the Dormitory Fund</a>
+        <a href="contact.html" class="btn btn--outline btn--lg">Contact Simon Directly</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="flag-bar"></div>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <span class="footer__brand-name">AYAA</span>
+          <span class="footer__brand-sub">South Sudanese Community Organization</span>
+          <p class="footer__desc">
+            Bridging Louisville, Kentucky and Magwi, South Sudan through education,
+            safe water, and community empowerment.
+          </p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/simon.ottaviano.50" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook">f</a>
+            <a href="#" class="footer__social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="footer__social-link" aria-label="Instagram">ig</a>
+            <a href="#" class="footer__social-link" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="index.html" class="footer__link">Home</a></li>
+            <li><a href="about.html" class="footer__link">About Simon &amp; AYAA</a></li>
+            <li><a href="programs.html" class="footer__link">Our Programs</a></li>
+            <li><a href="school.html" class="footer__link">Ayaa Senior Secondary School</a></li>
+            <li><a href="donate.html" class="footer__link">Donate</a></li>
+            <li><a href="contact.html" class="footer__link">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">The School</h4>
+          <ul class="footer__links">
+            <li><a href="#" class="footer__link">School Overview</a></li>
+            <li><a href="#dormitory" class="footer__link">Girls' Dormitory Campaign</a></li>
+            <li><a href="programs.html#water" class="footer__link">WaterStep Partnership</a></li>
+            <li><a href="donate.html" class="footer__link">Ways to Give</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Contact</h4>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <span>6907 Hollow Creek Court<br />Louisville, Kentucky 40228</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+            <span><a href="tel:+15022353913" class="footer__link">(502) 235-3913</a></span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+            <span><a href="mailto:simonORealtor@gmail.com" class="footer__link">simonORealtor@gmail.com</a></span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; <span class="js-year">2025</span> AYAA South Sudanese Community Organization. All rights reserved.</p>
+        <p class="footer__ein"><strong>EIN: 88-3720394</strong> &nbsp;|&nbsp; Registered 501(c)(3) Nonprofit &nbsp;|&nbsp; Louisville, KY</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

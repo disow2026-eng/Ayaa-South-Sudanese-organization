@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AYAA South Sudanese Community Organization — Empowering South Sudanese communities in Louisville, Kentucky and back home in Magwi, South Sudan through education, safe water, and community support.">
+  <title>AYAA South Sudanese Community Organization — Home</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar scrolled" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo" aria-label="AYAA Home">
+          <span class="navbar__logo-name">AYAA</span>
+          <span class="navbar__logo-sub">South Sudanese Community Org.</span>
+        </a>
+        <ul class="navbar__nav">
+
+
+          <li class=""><a href="index.html" class="navbar__link active">Home</a></li>
+          <li class=""><a href="about.html" class="navbar__link">About</a></li>
+          <li class=""><a href="programs.html" class="navbar__link">Programs</a></li>
+          <li class=""><a href="school.html" class="navbar__link">The School</a></li>
+          <li class=""><a href="contact.html" class="navbar__link active">Contact</a></li>
+        
+      
+      <li class=""><a href="community.html" class="navbar__link">community</a></li></ul>
+        <div class="navbar__cta">
+          <a href="donate.html" class="btn btn--primary">Donate Now</a>
+        </div>
+        <button class="navbar__hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero hero--home hero--photo" style="background-image: url('493254739_29723280290603654_3983025169921132813_n.jpg');">
+    <div class="hero__overlay"></div>
+    <div class="container">
+      <div class="hero__content">
+        <div class="hero__badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg> Louisville, Kentucky &nbsp;|&nbsp; Magwi, South Sudan
+        </div>
+        <h1 class="hero__title">
+          Empowering<br>
+          <em>South Sudanese</em><br>
+          Communities —<br>
+          Home and Abroad
+        </h1>
+        <p class="hero__subtitle">
+          Founded by Simon Ottaviano — Army veteran, MBA, and son of a Paramount Chief —
+          AYAA bridges two continents through education, clean water, and community.
+        </p>
+        <div class="hero__actions">
+          <a href="about.html" class="btn btn--outline btn--lg">Learn Our Story</a>
+          <a href="donate.html" class="btn btn--gold btn--lg">Donate Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-bar__grid">
+        <div class="stat">
+          <div class="stat__number" data-count="200" data-suffix="+">200+</div>
+          <div class="stat__label">Students Served</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="1">1</div>
+          <div class="stat__label">School Built</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="2">2</div>
+          <div class="stat__label">Countries Connected</div>
+        </div>
+        <div class="stat">
+          <div class="stat__number" data-count="30" data-suffix=" Yrs">30 Yrs</div>
+          <div class="stat__label">Serving from America</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MISSION CARDS ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <span class="section-label">What We Do</span>
+        <h2 class="section-title">Our Mission in Action</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle">
+          Three pillars — education, water, and community — guide everything we do
+          for the South Sudanese people here and in East Africa.
+        </p>
+      </div>
+      <div class="card-grid card-grid--3">
+
+        <div class="card fade-up __aw-card visible">
+          <div class="card__icon-band card__icon-band--gold"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--gold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg></div>
+            <h3 class="card__title">Education</h3>
+            <p class="card__text">
+              Ayaa Senior Secondary School in Magwi Center, South Sudan serves
+              200+ students from Senior One through Senior Four. Named after
+              Simon's mother, the school transforms lives through learning.
+            </p>
+            <a href="school.html" class="card__link">Learn about the school →</a>
+          </div>
+        </div>
+
+        <div class="card fade-up __aw-card visible">
+          <div class="card__icon-band card__icon-band--blue"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></div>
+            <h3 class="card__title">Safe Water</h3>
+            <p class="card__text">
+              In partnership with Louisville nonprofit WaterStep, we are bringing
+              clean, safe water to the school and surrounding village — ending
+              generations of bilharzia and waterborne disease from the River Ayii.
+            </p>
+            <a href="programs.html" class="card__link">See our programs →</a>
+          </div>
+        </div>
+
+        <div class="card fade-up __aw-card visible">
+          <div class="card__icon-band card__icon-band--green"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--green"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+            <h3 class="card__title">Community Support</h3>
+            <p class="card__text">
+              Right here in Louisville, Kentucky, AYAA supports South Sudanese
+              immigrants and refugees with resources, connection, and advocacy —
+              helping our community thrive in their adopted home.
+            </p>
+            <a href="programs.html" class="card__link">Get involved →</a>
+          </div>
+        </div>
+
+      </div>
+    <p class="" style="line-height: 1.8; margin: 0.75rem 0px; cursor: text;">cvvcvcv</p></div>
+  </section>
+
+  <!-- ===== SIMON'S STORY TEASER ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="story-grid">
+        <div class="story__visual fade-up visible">
+          <div class="founder-portrait">
+            <img src="SImon.jpg" alt="Simon Ottaviano, Founder and President of AYAA South Sudanese Community Organization">
+            <div class="founder-portrait__badge">
+              <div class="founder-portrait__badge-name">Simon Ottaviano</div>
+              <div class="founder-portrait__badge-title">Founder &amp; President, AYAA</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-up visible">
+          <span class="story__label">The Founder's Journey</span>
+          <h2 class="story__title">From Magwi to Louisville — A Story of Sacrifice and Service</h2>
+          <div class="divider"></div>
+          <p class="story__text">
+            Simon Ottaviano was born in Magwi County, South Sudan — Acholi territory in Eastern Equatoria —
+            the son of Ottaviano Oyat, the Paramount Chief of the Acholi people in South Sudan.
+            When civil war tore through his homeland, Simon fled to the United States in 1994.
+          </p>
+          <p class="story__text">
+            He served six years in the U.S. Army, earned an MBA from Sullivan University in 2008,
+            spent 12 years at Anthem Blue Cross and Blue Shield, and became a licensed REALTOR.
+            But through it all, he never forgot Magwi.
+          </p>
+          <p class="story__text">
+            In 2022, Simon made the ultimate sacrifice: he sold his house and cashed out his 401(k)
+            to build a school back home — the Ayaa Senior Secondary School, named after his mother.
+          </p>
+          <a href="about.html" class="btn btn--primary" style="margin-top: 1rem;">Read Simon's Full Story</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACTIVE CAMPAIGN HIGHLIGHT ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="urgency-alert">
+        <div class="urgency-alert__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg></div>
+        <div>
+          <h3 class="urgency-alert__title">Urgent: Girls' Dormitory Campaign</h3>
+          <p class="urgency-alert__text">
+            Every school day, hundreds of girls walk 4 to 5 miles each way to reach Ayaa Senior Secondary School —
+            crossing dangerous terrain, exposed to risk. A dormitory will keep them safe and in school.
+            <strong>Your donation can change this.</strong>
+          </p>
+        </div>
+        <a href="school.html" class="btn btn--outline-dark" style="flex-shrink: 0; margin-left: auto;">Learn More</a>
+      </div>
+    </div>
+  <p class="" style="line-height: 1.8; margin: 0.75rem 0px; cursor: text;">Your text here — click to edit</p></section>
+
+  <!-- ===== IMPACT NUMBERS ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <span class="section-label">Our Impact</span>
+        <h2 class="section-title">Making a Measurable Difference</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="impact-grid">
+        <div class="impact-item fade-up visible">
+          <div class="impact-number text-red" data-count="200" data-suffix="+">200+</div>
+          <div class="impact-label">High School Students Enrolled</div>
+        </div>
+        <div class="impact-item fade-up visible">
+          <div class="impact-number text-green" data-count="4">4</div>
+          <div class="impact-label">Grade Levels (Sr. One–Four)</div>
+        </div>
+        <div class="impact-item fade-up visible">
+          <div class="impact-number text-blue" data-count="1">1</div>
+          <div class="impact-label">Water Partnership (WaterStep)</div>
+        </div>
+        <div class="impact-item fade-up visible">
+          <div class="impact-number" style="color: var(--gold-dark);" data-count="501">501</div>
+          <div class="impact-label">Tax-Exempt Nonprofit</div>
+        </div>
+      </div>
+    </div>
+  <p class="" style="line-height: 1.8; margin: 0.75rem 0px; cursor: text;">Your text here — click to edit</p></section>
+
+  <!-- ===== CTA DONATE BANNER ===== -->
+  <section class="cta-banner">
+    <div class="container">
+      <span class="cta-banner__eyebrow">Make a Difference Today</span>
+      <h2 class="cta-banner__title">Every Dollar Goes Directly<br>to the People of Magwi</h2>
+      <p class="cta-banner__text">
+        AYAA is a registered 501(c)(3) nonprofit. Your contribution is fully
+        tax-deductible and transforms lives on two continents.
+        EIN: 88-3720394
+      </p>
+      <div class="cta-banner__actions">
+        <a href="donate.html" class="btn btn--gold btn--lg">Donate Now</a>
+        <a href="contact.html" class="btn btn--outline btn--lg">Volunteer With Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PHOTO STRIP ===== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 3rem;">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 1.75rem;">
+        <span class="section-label">Life at Ayaa School</span>
+        <h2 class="section-title" style="font-size: clamp(1.4rem, 2.5vw, 2rem);">Students of Magwi — In Their Own Light</h2>
+      </div>
+      <div class="photo-strip">
+        <div class="photo-card photo-card--tall __aw-card">
+          <img src="IMG_0568.WEBP" alt="Female student at Ayaa Senior Secondary School">
+          <div class="photo-card__caption">A student at Ayaa Senior Secondary School, Magwi</div>
+        </div>
+        <div class="photo-card photo-card--tall __aw-card">
+          <img src="777186588_38260471500217781_2528621645228580944_n.jpg" alt="Students studying in pink uniforms">
+          <div class="photo-card__caption">Students in class — Ayaa Senior Secondary School</div>
+        </div>
+        <div class="photo-card photo-card--tall __aw-card">
+          <img src="778231257_38260473110217620_47152937520564275_n.jpg" alt="Full classroom at Ayaa school">
+          <div class="photo-card__caption">Hundreds of students in the main hall</div>
+        </div>
+        <div class="photo-card photo-card--tall __aw-card">
+          <img src="IMG_0570.WEBP" alt="Youth soccer team">
+          <div class="photo-card__caption">Youth sports — community building through sport</div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="school.html" class="btn btn--outline-dark">See More From the School</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VIDEO TEASER ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+        <div>
+          <span class="section-label">Watch His Story</span>
+          <h2 class="section-title">See Why Simon Built a School With His Life Savings</h2>
+          <div class="divider"></div>
+          <p style="color: var(--dark-gray); line-height: 1.8; margin-bottom: 1.5rem;" class="">
+            WaterStep — AYAA's Louisville partner — documented Simon Ottaviano's extraordinary journey:
+            from fleeing civil war in South Sudan to serving in the U.S. Army,
+            earning his MBA, and ultimately sacrificing his retirement to build a school named after his mother.
+          </p>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="about.html#video" class="btn btn--primary">Watch the Full Story</a>
+            <a href="https://www.facebook.com/simon.ottaviano.50" target="_blank" rel="noopener" class="btn" style="background: #1877F2; color: white; border-color: #1877F2;">Follow on Facebook</a>
+          </div>
+        </div>
+        <div style="border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-lg); background: #000; aspect-ratio: 16/9; position: relative;">
+          <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FWaterStep%2Fvideos%2F572520868981967%2F&amp;show_text=false&amp;width=560&amp;height=315&amp;appId" style="position: absolute; inset: 0; width: 100%; height: 100%; border: none;" scrolling="no" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PARTNER SECTION ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 2rem;">
+        <span class="section-label">Our Partners</span>
+        <h2 class="section-title">Working Together for South Sudan</h2>
+        <div class="divider divider--center"></div>
+      </div>
+      <div class="partner-banner fade-up">
+        <div class="partner-banner__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg></div>
+        <div>
+          <div class="partner-banner__label">Official Partner</div>
+          <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;" class="">WaterStep — Louisville, Kentucky</h3>
+          <p style="margin: 0; font-size: 0.95rem; color: var(--dark-gray);" class="">
+            WaterStep is a Louisville-based nonprofit bringing safe water technology to communities
+            in need worldwide. Their partnership with AYAA is delivering clean water to Ayaa Senior
+            Secondary School and the village of Magwi — where generations suffered from bilharzia
+            disease caused by contaminated water from the River Ayii.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="flag-bar"></div>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <span class="footer__brand-name">AYAA</span>
+          <span class="footer__brand-sub">South Sudanese Community Organization</span>
+          <p class="footer__desc">
+            Bridging Louisville, Kentucky and Magwi, South Sudan through education,
+            safe water, and community empowerment. Founded by Simon Ottaviano — Army veteran,
+            MBA, and proud son of Magwi County.
+          </p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/simon.ottaviano.50" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook">f</a>
+            <a href="#" class="footer__social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="footer__social-link" aria-label="Instagram">ig</a>
+            <a href="#" class="footer__social-link" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Quick Links</h4>
+          <ul class="footer__links">
+            <li class=""><a href="index.html" class="footer__link">Home</a></li>
+            <li class=""><a href="about.html" class="footer__link">About Simon &amp; AYAA</a></li>
+            <li class=""><a href="programs.html" class="footer__link">Our Programs</a></li>
+            <li class=""><a href="school.html" class="footer__link">Ayaa Senior Secondary School</a></li>
+            <li class=""><a href="donate.html" class="footer__link">Donate</a></li>
+            <li class=""><a href="contact.html" class="footer__link">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Our Work</h4>
+          <ul class="footer__links">
+            <li class=""><a href="school.html" class="footer__link">Education Program</a></li>
+            <li class=""><a href="programs.html" class="footer__link">Safe Water Access</a></li>
+            <li class=""><a href="school.html" class="footer__link">Girls' Dormitory Campaign</a></li>
+            <li class=""><a href="programs.html" class="footer__link">Louisville Community Support</a></li>
+            <li class=""><a href="donate.html" class="footer__link">Ways to Give</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Contact</h4>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></span>
+            <span>6907 Hollow Creek Court<br>Louisville, Kentucky 40228</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></span>
+            <span><a href="tel:+15022353913" class="footer__link">(502) 235-3913</a></span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></span>
+            <span><a href="mailto:simonORealtor@gmail.com" class="footer__link">simonORealtor@gmail.com</a></span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          © <span class="js-year">2026</span> AYAA South Sudanese Community Organization. All rights reserved.
+        </p>
+        <p class="footer__ein">
+          <strong>EIN: 88-3720394</strong> &nbsp;|&nbsp; Registered 501(c)(3) Nonprofit &nbsp;|&nbsp; Louisville, KY
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+
+</body></html>

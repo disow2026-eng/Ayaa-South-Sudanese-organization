@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Donate to AYAA South Sudanese Community Organization. EIN 88-3720394. 501(c)(3) tax-exempt nonprofit. Support education in South Sudan and the Louisville South Sudanese community." />
+  <title>Donate — AYAA South Sudanese Community Organization</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__logo" aria-label="AYAA Home">
+          <span class="navbar__logo-name">AYAA</span>
+          <span class="navbar__logo-sub">South Sudanese Community Org.</span>
+        </a>
+        <ul class="navbar__nav">
+
+          <li><a href="index.html" class="navbar__link">Home</a></li>
+          <li><a href="about.html" class="navbar__link">About</a></li>
+          <li><a href="programs.html" class="navbar__link">Programs</a></li>
+          <li><a href="school.html" class="navbar__link">The School</a></li>
+          <li><a href="contact.html" class="navbar__link">Contact</a></li>
+        
+      </ul>
+        <div class="navbar__cta">
+          <a href="donate.html" class="btn btn--primary">Donate Now</a>
+        </div>
+        <button class="navbar__hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero hero--donate">
+    <div class="hero__overlay"></div>
+    <div class="container">
+      <div class="page-header">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb__sep">/</span>
+          <span>Donate</span>
+        </div>
+        <span class="page-header__label">Support the Mission</span>
+        <h1 class="page-header__title">Your Gift Changes<br />Lives in Two Countries</h1>
+        <p class="page-header__subtitle">
+          AYAA is a registered 501(c)(3) nonprofit. Every dollar you give is
+          fully tax-deductible and goes directly to the communities we serve —
+          in Louisville, Kentucky and Magwi, South Sudan.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TAX EXEMPT BADGE ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="content-two-col">
+        <div>
+          <span class="section-label">Tax-Deductible Giving</span>
+          <h2 class="section-title">Your Donation Is Fully<br />Tax-Deductible</h2>
+          <div class="divider"></div>
+
+          <div class="ein-badge">
+            <div class="ein-badge__check"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <div>
+              <div style="font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-dark); margin-bottom: 0.25rem;">IRS-Recognized 501(c)(3) Nonprofit</div>
+              <div>EIN: <strong>88-3720394</strong></div>
+            </div>
+          </div>
+
+          <p style="color: var(--dark-gray); line-height: 1.8; margin-bottom: 1rem;">
+            AYAA South Sudanese Community Organization is a federally recognized
+            tax-exempt nonprofit organization under Section 501(c)(3) of the
+            Internal Revenue Code. Your contribution is deductible to the full
+            extent permitted by law.
+          </p>
+          <p style="color: var(--dark-gray); line-height: 1.8; margin-bottom: 1.5rem;">
+            You will receive a donation acknowledgment letter for your tax records.
+            For donations by check, please make the check payable to
+            <strong>"AYAA South Sudanese Community Organization"</strong>
+            and include your email address for a receipt.
+          </p>
+
+          <div class="info-box info-box--green">
+            <div class="info-box__title">Save This for Your Tax Records</div>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--dark-gray);">
+              Organization Name: AYAA South Sudanese Community Organization<br />
+              EIN / Tax ID: <strong>88-3720394</strong><br />
+              Address: 6907 Hollow Creek Court, Louisville, KY 40228<br />
+              Tax-Exempt Status: 501(c)(3) — Charitable Organization
+            </p>
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div style="background: linear-gradient(160deg, var(--ss-red) 0%, var(--red-dark) 100%); border-radius: var(--radius-lg); padding: 2.5rem; color: white; text-align: center;">
+            <div style="margin-bottom: 1rem; display: flex; justify-content: center;"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <h3 style="color: white; font-size: 1.4rem; margin-bottom: 1rem;">100% Goes to the Mission</h3>
+            <p style="color: rgba(255,255,255,0.85); font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem;">
+              AYAA operates with a lean structure. Simon Ottaviano already proved his
+              commitment by investing his own retirement savings in the school.
+              Donations go to programs — not overhead.
+            </p>
+            <div style="border-top: 1px solid rgba(255,255,255,0.25); padding-top: 1.5rem;">
+              <div style="font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--ss-gold);">200+</div>
+              <div style="font-size: 0.82rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 0.08em;">Students your giving supports</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DONATION TIERS ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <span class="section-label">Give What You Can</span>
+        <h2 class="section-title">The Impact of Your Gift</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle">
+          No gift is too small. Every dollar moves us closer to a dormitory,
+          safer water, and more students with a future.
+        </p>
+      </div>
+
+      <div class="donate-tiers" id="donation-tiers">
+        <div class="donate-tier fade-up">
+          <div class="donate-tier__amount">$25</div>
+          <div class="donate-tier__impact">
+            Provides one month of school supplies — notebooks, pens, and textbooks —
+            for a student who cannot afford them.
+          </div>
+          <a href="#give" class="btn btn--outline-dark" style="width: 100%; justify-content: center;">Give $25</a>
+        </div>
+
+        <div class="donate-tier donate-tier--featured fade-up">
+          <div class="donate-tier__amount">$100</div>
+          <div class="donate-tier__impact">
+            Covers one student's school fees for an entire term — keeping a child
+            in school who might otherwise have to drop out due to family hardship.
+          </div>
+          <a href="#give" class="btn btn--primary" style="width: 100%; justify-content: center;">Give $100</a>
+        </div>
+
+        <div class="donate-tier fade-up">
+          <div class="donate-tier__amount">$250</div>
+          <div class="donate-tier__impact">
+            Contributes directly to the Girls' Dormitory construction fund —
+            bricks, mortar, and roofing materials that will protect female students.
+          </div>
+          <a href="#give" class="btn btn--outline-dark" style="width: 100%; justify-content: center;">Give $250</a>
+        </div>
+
+        <div class="donate-tier fade-up">
+          <div class="donate-tier__amount">$500</div>
+          <div class="donate-tier__impact">
+            Funds a WaterStep water purification component — one step closer
+            to eliminating bilharzia from the Magwi school and village forever.
+          </div>
+          <a href="#give" class="btn btn--outline-dark" style="width: 100%; justify-content: center;">Give $500</a>
+        </div>
+      </div>
+
+      <!-- How to donate CTA -->
+      <div style="background: var(--near-black); border-radius: var(--radius-lg); padding: 2rem 2.5rem; margin-top: 2.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+        <div class="person-card__photo" style="width: 80px; height: 80px; flex-shrink: 0; border-color: var(--ss-gold);">
+          <img src="SImon.jpg" alt="Simon Ottaviano" />
+        </div>
+        <div style="flex: 1; min-width: 200px;">
+          <div style="font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; margin-bottom: 0.2rem;">Ready to donate? Contact Simon directly.</div>
+          <div style="font-size: 0.9rem; color: rgba(255,255,255,0.65);">Simon Ottaviano personally handles all donations and will confirm your gift.</div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; flex-shrink: 0;">
+          <a href="tel:+15022353913" class="btn btn--gold"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> (502) 235-3913</a>
+          <a href="mailto:simonORealtor@gmail.com" class="btn btn--outline"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block;vertical-align:middle;margin-right:6px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> simonORealtor@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WAYS TO GIVE ===== -->
+  <section class="section" id="give">
+    <div class="container">
+      <div class="text-center" style="margin-bottom: 3rem;">
+        <span class="section-label">How to Give</span>
+        <h2 class="section-title">Multiple Ways to Support AYAA</h2>
+        <div class="divider divider--center"></div>
+      </div>
+
+      <div class="payment-methods">
+        <div class="payment-method fade-up">
+          <div class="payment-method__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="payment-method__title">Check by Mail</div>
+          <p class="payment-method__desc">
+            Make check payable to<br />
+            <strong>"AYAA South Sudanese Community Organization"</strong><br />
+            and mail to:<br />
+            6907 Hollow Creek Court<br />
+            Louisville, KY 40228
+          </p>
+        </div>
+
+        <div class="payment-method fade-up">
+          <div class="payment-method__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          <div class="payment-method__title">Call or Text Simon</div>
+          <p class="payment-method__desc">
+            Speak directly with CEO Simon Ottaviano to arrange your donation,
+            ask questions, or discuss giving options.<br /><br />
+            <a href="tel:+15022353913" style="color: var(--ss-red); font-weight: 700; font-size: 1.05rem;">(502) 235-3913</a><br />
+            <a href="mailto:simonORealtor@gmail.com" style="color: var(--ss-blue); font-size: 0.88rem; word-break: break-all;">simonORealtor@gmail.com</a>
+          </p>
+        </div>
+
+        <div class="payment-method fade-up">
+          <div class="payment-method__icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="13" height="18"/><path d="M16 8h4l3 3v10h-7"/><line x1="7" y1="8" x2="10" y2="8"/><line x1="7" y1="12" x2="10" y2="12"/><line x1="7" y1="16" x2="10" y2="16"/></svg></div>
+          <div class="payment-method__title">Employer Match / Benevity</div>
+          <p class="payment-method__desc" id="matching">
+            Many employers match charitable contributions dollar-for-dollar or more.
+            Search for <strong>"AYAA South Sudanese Community Organization"</strong>
+            or our EIN <strong>88-3720394</strong> in your employer's giving portal
+            (Benevity, YourCause, Bright Funds, etc.).
+          </p>
+        </div>
+      </div>
+
+      <!-- In-kind and other -->
+      <div class="card-grid card-grid--2" style="margin-top: 2rem;">
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--blue"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--blue"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+            <h3 class="card__title">In-Kind Donations</h3>
+            <p class="card__text">
+              We accept in-kind gifts of school supplies, educational materials,
+              and other items that can be shipped or delivered to Magwi.
+              Contact us to discuss logistics and ensure your donation
+              reaches students effectively.
+            </p>
+            <a href="contact.html" class="card__link">Contact us about in-kind →</a>
+          </div>
+        </div>
+
+        <div class="card fade-up">
+          <div class="card__icon-band card__icon-band--gold"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--gold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
+            <h3 class="card__title">Major &amp; Planned Gifts</h3>
+            <p class="card__text">
+              Interested in making a significant investment in the future of Magwi?
+              Simon Ottaviano personally welcomes conversations about major gifts,
+              corporate partnerships, foundation grants, and planned giving.
+              Your legacy can be built into the school's walls.
+            </p>
+            <a href="contact.html" class="card__link">Start a conversation →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WHERE THE MONEY GOES ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="text-center" style="max-width: 700px; margin: 0 auto 3rem;">
+        <span class="section-label">Transparency</span>
+        <h2 class="section-title">Where Your Money Goes</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle">
+          We believe in radical transparency. Here's how donations are allocated
+          across AYAA's programs.
+        </p>
+      </div>
+
+      <div class="card-grid card-grid--3">
+        <div class="card fade-up" style="text-align: center;">
+          <div class="card__icon-band card__icon-band--gold"></div>
+          <div class="card__body">
+            <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--ss-red); margin-bottom: 0.5rem;">50%</div>
+            <h3 class="card__title">Girls' Dormitory</h3>
+            <p class="card__text" style="font-size: 0.9rem;">
+              The top priority right now. Half of all donations go directly
+              to construction of the dormitory at Ayaa Senior Secondary School —
+              the most urgent safety need for our female students.
+            </p>
+          </div>
+        </div>
+
+        <div class="card fade-up" style="text-align: center;">
+          <div class="card__icon-band card__icon-band--blue"></div>
+          <div class="card__body">
+            <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--ss-blue); margin-bottom: 0.5rem;">30%</div>
+            <h3 class="card__title">School Operations</h3>
+            <p class="card__text" style="font-size: 0.9rem;">
+              Teacher salaries, school supplies, textbooks, maintenance,
+              and student support — the day-to-day costs that keep 200+
+              students learning every single day.
+            </p>
+          </div>
+        </div>
+
+        <div class="card fade-up" style="text-align: center;">
+          <div class="card__icon-band card__icon-band--green"></div>
+          <div class="card__body">
+            <div style="font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 900; color: var(--ss-green); margin-bottom: 0.5rem;">20%</div>
+            <h3 class="card__title">Water &amp; Community</h3>
+            <p class="card__text" style="font-size: 0.9rem;">
+              Supporting our WaterStep water partnership at the school and
+              funding community support services for South Sudanese families
+              in Louisville, Kentucky.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EMPLOYER MATCH DEEP DIVE ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="story-grid">
+        <div class="fade-up">
+          <span class="story__label">Double Your Impact</span>
+          <h2 class="story__title">Does Your Employer Offer Donation Matching?</h2>
+          <div class="divider"></div>
+          <p class="story__text">
+            Thousands of companies — including many of the largest employers in Louisville —
+            offer donation matching programs through platforms like Benevity, YourCause,
+            and Bright Funds. If your employer participates, they will match your donation
+            to AYAA dollar-for-dollar (or sometimes two-to-one or three-to-one).
+          </p>
+          <p class="story__text">
+            This is one of the most powerful ways to amplify your generosity at no
+            additional cost to you. A $100 donation becomes $200 or $300 —
+            and for a small nonprofit like AYAA, that difference is enormous.
+          </p>
+          <p class="story__text">
+            To check if your employer matches:
+          </p>
+          <ol style="padding-left: 1.5rem; color: var(--dark-gray); line-height: 2; font-size: 0.95rem; margin-bottom: 1.5rem;">
+            <li>Log in to your HR portal or ask your HR team</li>
+            <li>Search for our organization name or EIN: <strong>88-3720394</strong></li>
+            <li>Submit your matching gift request after making your donation</li>
+            <li>AYAA will confirm your donation and process the match</li>
+          </ol>
+          <div class="info-box info-box--gold" style="margin-top: 0;">
+            <div class="info-box__title">Need Help? Contact Us.</div>
+            <p style="font-size: 0.88rem; margin: 0; color: var(--dark-gray);">
+              Simon Ottaviano is happy to provide any documentation your employer needs
+              to process a matching gift. Call <a href="tel:+15022353913" style="color: var(--ss-red); font-weight: 600;">(502) 235-3913</a>
+              or email <a href="mailto:simonORealtor@gmail.com" style="color: var(--ss-red);">simonORealtor@gmail.com</a>.
+            </p>
+          </div>
+        </div>
+
+        <div class="fade-up">
+          <div class="callout callout--blue">
+            <h3 style="color: white; font-size: 1.2rem; margin-bottom: 1.25rem;">Common Platforms We're Listed On</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
+              <li style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.9); font-size: 0.95rem;">
+                <span class="platform-dot platform-dot--blue"></span>
+                <div><strong>Benevity</strong> — Used by hundreds of Fortune 500 companies</div>
+              </li>
+              <li style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.9); font-size: 0.95rem;">
+                <span class="platform-dot platform-dot--green"></span>
+                <div><strong>YourCause</strong> — Used by many government contractors and tech firms</div>
+              </li>
+              <li style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.9); font-size: 0.95rem;">
+                <span class="platform-dot platform-dot--yellow"></span>
+                <div><strong>Bright Funds / Fidelity Charitable</strong> — For donor-advised funds</div>
+              </li>
+              <li style="display: flex; align-items: center; gap: 0.75rem; color: rgba(255,255,255,0.9); font-size: 0.95rem;">
+                <span class="platform-dot platform-dot--gray"></span>
+                <div><strong>Anthem, UPS, Humana</strong> — All Louisville-area employers with strong matching programs</div>
+              </li>
+            </ul>
+          </div>
+
+          <div style="background: var(--off-white); border-radius: var(--radius-lg); padding: 2rem; margin-top: 1.5rem; text-align: center;">
+            <p style="font-size: 0.9rem; color: var(--dark-gray); margin-bottom: 0.5rem; font-weight: 600;">Our Organization Details for Your Matching Form</p>
+            <div style="font-size: 0.88rem; color: var(--mid-gray); line-height: 2;">
+              <div><strong>Legal Name:</strong> AYAA South Sudanese Community Organization</div>
+              <div><strong>EIN:</strong> 88-3720394</div>
+              <div><strong>Address:</strong> 6907 Hollow Creek Court, Louisville, KY 40228</div>
+              <div><strong>Type:</strong> 501(c)(3) Public Charity</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT TO DONATE ===== -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="text-center" style="max-width: 600px; margin: 0 auto 3rem;">
+        <span class="section-label">Get In Touch</span>
+        <h2 class="section-title">Prefer to Give Directly?<br />Simon Is Ready to Talk.</h2>
+        <div class="divider divider--center"></div>
+        <p class="section-subtitle">
+          Sometimes the most meaningful gift comes from a real conversation.
+          Simon Ottaviano personally answers calls and emails.
+        </p>
+      </div>
+
+      <div class="card-grid card-grid--3">
+        <div class="card fade-up" style="text-align: center;">
+          <div class="card__icon-band card__icon-band--red"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--red" style="margin: 0 auto 1.25rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+            <h3 class="card__title">Call Simon</h3>
+            <p class="card__text">
+              Available to discuss donations, answer questions about the school,
+              and connect you with our work in Magwi and Louisville.
+            </p>
+            <a href="tel:+15022353913" class="btn btn--primary" style="margin-top: 1rem; display: inline-flex;">(502) 235-3913</a>
+          </div>
+        </div>
+
+        <div class="card fade-up" style="text-align: center;">
+          <div class="card__icon-band card__icon-band--blue"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--blue" style="margin: 0 auto 1.25rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <h3 class="card__title">Send a Check</h3>
+            <p class="card__text">
+              Make payable to <strong>"AYAA South Sudanese Community Organization"</strong>
+              and mail to 6907 Hollow Creek Court, Louisville, KY 40228.
+              Include your email for a receipt.
+            </p>
+          </div>
+        </div>
+
+        <div class="card fade-up" style="text-align: center;">
+          <div class="card__icon-band card__icon-band--green"></div>
+          <div class="card__body">
+            <div class="card__icon card__icon--green" style="margin: 0 auto 1.25rem;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <h3 class="card__title">Email Us</h3>
+            <p class="card__text">
+              Questions about your donation, tax receipts, employer matching,
+              or major gifts — we respond to every message.
+            </p>
+            <a href="mailto:simonORealtor@gmail.com" class="btn btn--green" style="margin-top: 1rem; display: inline-flex;">Email Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-banner">
+    <div class="container">
+      <span class="cta-banner__eyebrow">The Time Is Now</span>
+      <h2 class="cta-banner__title">One Man Sold His Home<br />to Build a School.</h2>
+      <p class="cta-banner__text">
+        Simon Ottaviano gave everything he had. Now it's the community's turn.
+        A dormitory, clean water, more teachers — we can do this together.
+        Your donation, any size, moves us forward.
+      </p>
+      <div class="cta-banner__actions">
+        <a href="contact.html" class="btn btn--gold btn--lg">Contact Simon to Give</a>
+        <a href="school.html" class="btn btn--outline btn--lg">See What Your Gift Builds</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="flag-bar"></div>
+    <div class="container">
+      <div class="footer__grid">
+        <div>
+          <span class="footer__brand-name">AYAA</span>
+          <span class="footer__brand-sub">South Sudanese Community Organization</span>
+          <p class="footer__desc">
+            Bridging Louisville, Kentucky and Magwi, South Sudan through education,
+            safe water, and community empowerment.
+          </p>
+          <div class="footer__social">
+            <a href="https://www.facebook.com/simon.ottaviano.50" target="_blank" rel="noopener" class="footer__social-link" aria-label="Facebook">f</a>
+            <a href="#" class="footer__social-link" aria-label="Twitter">𝕏</a>
+            <a href="#" class="footer__social-link" aria-label="Instagram">ig</a>
+            <a href="#" class="footer__social-link" aria-label="LinkedIn">in</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer__heading">Quick Links</h4>
+          <ul class="footer__links">
+            <li><a href="index.html" class="footer__link">Home</a></li>
+            <li><a href="about.html" class="footer__link">About Simon &amp; AYAA</a></li>
+            <li><a href="programs.html" class="footer__link">Our Programs</a></li>
+            <li><a href="school.html" class="footer__link">Ayaa Senior Secondary School</a></li>
+            <li><a href="donate.html" class="footer__link">Donate</a></li>
+            <li><a href="contact.html" class="footer__link">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Ways to Give</h4>
+          <ul class="footer__links">
+            <li><a href="#give" class="footer__link">Check by Mail</a></li>
+            <li><a href="#give" class="footer__link">Call Simon</a></li>
+            <li><a href="#matching" class="footer__link">Employer Matching</a></li>
+            <li><a href="#give" class="footer__link">In-Kind Gifts</a></li>
+            <li><a href="#give" class="footer__link">Major &amp; Planned Gifts</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer__heading">Contact</h4>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+            <span>6907 Hollow Creek Court<br />Louisville, Kentucky 40228</span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.98 5.98l1.28-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+            <span><a href="tel:+15022353913" class="footer__link">(502) 235-3913</a></span>
+          </div>
+          <div class="footer__contact-item">
+            <span class="footer__contact-icon"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+            <span><a href="mailto:simonORealtor@gmail.com" class="footer__link">simonORealtor@gmail.com</a></span>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copyright">&copy; <span class="js-year">2025</span> AYAA South Sudanese Community Organization. All rights reserved.</p>
+        <p class="footer__ein"><strong>EIN: 88-3720394</strong> &nbsp;|&nbsp; Registered 501(c)(3) Nonprofit &nbsp;|&nbsp; Louisville, KY</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
