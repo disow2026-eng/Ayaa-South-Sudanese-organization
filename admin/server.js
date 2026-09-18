@@ -107,6 +107,20 @@ app.use(session({
   cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
+// Debug route — remove after fixing
+app.get('/debug', async (req, res) => {
+  const fssSync = require('fs');
+  const adminPublic = path.join(__dirname, 'public');
+  const info = {
+    __dirname,
+    SITE_DIR,
+    adminPublicExists: fssSync.existsSync(adminPublic),
+    adminIndexExists:  fssSync.existsSync(path.join(adminPublic, 'index.html')),
+    siteFiles: fssSync.existsSync(SITE_DIR) ? fssSync.readdirSync(SITE_DIR).slice(0, 20) : 'NOT FOUND'
+  };
+  res.json(info);
+});
+
 // Serve admin UI
 const ADMIN_HTML = path.join(__dirname, 'public', 'index.html');
 app.get('/admin',  (req, res) => res.sendFile(ADMIN_HTML));
