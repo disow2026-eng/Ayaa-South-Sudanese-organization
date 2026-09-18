@@ -7,6 +7,44 @@ const path       = require('path');
 const https      = require('https');
 const http       = require('http');
 const session    = require('express-session');
+const simpleGit  = require('simple-git');
+
+// ── Git helper ──────────────────────────────────────────────────
+// Requires env vars on Railway:
+//   GIT_TOKEN   — GitHub personal access token (repo scope)
+//   GIT_USER    — GitHub username
+//   GIT_EMAIL   — commit author email
+const REPO_DIR = path.resolve(__dirname, '..');
+const git = simpleGit(REPO_DIR);
+
+async function gitPush(message) {
+  try {
+    const token = process.env.GIT_TOKEN;
+    const user  = process.env.GIT_USER;
+    if (!token || !user) {
+      console.warn('Git push skipped — GIT_TOKEN or GIT_USER not set');
+      return;
+    }
+    // Set author identity
+    await git.addConfig('user.name',  process.env.GIT_USER);
+    await git.addConfig('user.email', process.env.GIT_EMAIL || `${user}@users.noreply.github.com`);
+
+    // Inject token into remote URL so push is authenticated
+    const remotes = await git.getRemotes(true);
+    const origin  = remotes.find(r => r.name === 'origin');
+    if (origin) {
+      const authedUrl = origin.refs.push.replace('https://', `https://${user}:${token}@`);
+      await git.remote(['set-url', 'origin', authedUrl]);
+    }
+
+    await git.add('-A');
+    await git.commit(message);
+    await git.push('origin', 'main');
+    console.log(`Git pushed: ${message}`);
+  } catch (err) {
+    console.error('Git push error:', err.message);
+  }
+}
 
 const app      = express();
 const PORT     = 3001;
@@ -85,6 +123,8 @@ app.post('/api/page/:name', auth, async (req, res) => {
   try { await fs.copyFile(file, file + '.bak'); } catch { /* no backup if new */ }
   await fs.writeFile(file, req.body.content, 'utf8');
   res.json({ ok: true });
+  // Push to GitHub in background → triggers Netlify redeploy
+  gitPush(`admin: update ${path.basename(req.params.name)}`);
 });
 
 app.post('/api/page-new', auth, async (req, res) => {
@@ -197,6 +237,7 @@ const upload = multer({
 app.post('/api/images', auth, upload.single('image'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file received' });
   res.json({ name: req.file.filename });
+  gitPush(`admin: upload image ${req.file.filename}`);
 });
 
 app.get('/api/images', auth, async (req, res) => {
