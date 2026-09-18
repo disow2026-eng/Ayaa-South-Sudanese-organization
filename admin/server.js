@@ -167,6 +167,30 @@ app.get('/api/page/:name', auth, async (req, res) => {
   res.json({ content });
 });
 
+// Check if a backup exists
+app.get('/api/page/:name/has-backup', auth, async (req, res) => {
+  const bakFile = path.join(SITE_DIR, path.basename(req.params.name)) + '.bak';
+  try { await fs.access(bakFile); res.json({ hasBak: true }); }
+  catch { res.json({ hasBak: false }); }
+});
+
+// Restore page from .bak backup
+app.post('/api/page/:name/restore', auth, async (req, res) => {
+  const file    = path.join(SITE_DIR, path.basename(req.params.name));
+  const bakFile = file + '.bak';
+  try {
+    await fs.access(bakFile);
+  } catch {
+    return res.status(404).json({ error: 'No backup found for this page' });
+  }
+  // Save current version as .bak so restore is reversible
+  try { await fs.copyFile(file, file + '.restored-bak'); } catch {}
+  await fs.copyFile(bakFile, file);
+  const content = await fs.readFile(file, 'utf8');
+  res.json({ ok: true, content });
+  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+});
+
 app.post('/api/page/:name', auth, async (req, res) => {
   const file = path.join(SITE_DIR, path.basename(req.params.name));
   try { await fs.copyFile(file, file + '.bak'); } catch {}
