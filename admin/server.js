@@ -108,8 +108,10 @@ app.use(session({
 }));
 
 // Serve admin UI
-app.get('/admin', (req, res) => res.redirect('/admin/'));
-app.use('/admin', express.static(path.join(__dirname, 'public')));
+const ADMIN_HTML = path.join(__dirname, 'public', 'index.html');
+app.get('/admin',  (req, res) => res.sendFile(ADMIN_HTML));
+app.get('/admin/', (req, res) => res.sendFile(ADMIN_HTML));
+app.use('/admin/assets', express.static(path.join(__dirname, 'public')));
 
 // Serve site files for iframe preview
 app.use('/site', express.static(SITE_DIR, { index: false }));
