@@ -193,11 +193,15 @@ app.post('/api/page/:name/restore', auth, async (req, res) => {
 
 app.post('/api/page/:name', auth, async (req, res) => {
   const file = path.join(SITE_DIR, path.basename(req.params.name));
-  try { await fs.copyFile(file, file + '.bak'); } catch {}
-  await fs.writeFile(file, req.body.content, 'utf8');
-  res.json({ ok: true });
-  // Deploy to Netlify in background — client sees save instantly
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  try {
+    try { await fs.copyFile(file, file + '.bak'); } catch {}
+    await fs.writeFile(file, req.body.content, 'utf8');
+    res.json({ ok: true });
+    netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  } catch (err) {
+    console.error('Save error:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 app.post('/api/page-new', auth, async (req, res) => {

@@ -1378,13 +1378,24 @@ async function savePage(){
   if(!curPage) return toast('No page loaded');
   setStatus('Saving…');
   const content = srcMode ? document.getElementById('src-ta').value : cleanHTML();
-  const r = await fetch('/api/page/'+curPage,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content})});
+  let r;
+  try { r = await fetch('/api/page/'+curPage,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({content})}); }
+  catch(e){ toast('Network error — check your connection','err'); setStatus('Save failed.'); return; }
+  if(r.status === 401){
+    toast('Session expired — please reload the page and log in again','err');
+    setStatus('Session expired. Reload the page.');
+    return;
+  }
   if(r.ok){
     markSaved();
     toast('Saved: '+curPage,'ok');
     setStatus('Saved — '+curPage);
     document.getElementById('btn-restore').style.display = 'inline-flex';
-  } else toast('Save failed','err');
+  } else {
+    const err = await r.json().catch(()=>({}));
+    toast('Save failed: '+(err.error||r.status),'err');
+    setStatus('Save failed.');
+  }
 }
 
 // ── Restore ─────────────────────────────────────────────────
