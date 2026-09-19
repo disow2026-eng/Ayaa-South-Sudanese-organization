@@ -731,6 +731,17 @@ let snapTimer, restoringSnap = false;
 window.__adm_el = null; // currently focused editable in iframe
 window._dragImg = null; // image being dragged from sidebar
 
+// Auto-prepend https:// for external URLs so they don't resolve relative to the site
+function normalizeHref(url){
+  if(!url) return url;
+  // Already has a scheme, is an anchor, absolute path, or a protocol
+  if(/^(https?:\/\/|mailto:|tel:|#|\/|\.\/)/.test(url)) return url;
+  // Ends with .html = internal page link — leave alone
+  if(/\.html?$/.test(url)) return url;
+  // Treat everything else as an external URL
+  return 'https://' + url;
+}
+
 function scheduleSnapshot(){ clearTimeout(snapTimer); snapTimer = setTimeout(pushSnapshot, 1200); }
 function pushSnapshot(force){
   if(restoringSnap || !curPage || !frame.contentDocument) return;
@@ -1094,7 +1105,7 @@ function injectEditor(){
       ctx.appendChild(ctxBtn('Edit URL','<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',()=>{
         const cur=link.getAttribute('href')||'';
         const v=prompt('Link URL:',cur);
-        if(v!==null){ link.setAttribute('href',v); markUnsaved(); pushSnapshot(true); toast('Link updated','ok'); }
+        if(v!==null){ link.setAttribute('href',normalizeHref(v)); markUnsaved(); pushSnapshot(true); toast('Link updated','ok'); }
       }));
       ctx.appendChild(ctxBtn('Remove link (keep text)','<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',()=>{
         pushSnapshot();
@@ -1454,7 +1465,7 @@ function inlineEditNav(li, a, rowEl){
     const lb = document.getElementById('ie-label').value.trim();
     const hr = document.getElementById('ie-href').value.trim();
     if(!lb) return toast('Enter a label');
-    a.textContent = lb; a.setAttribute('href', hr);
+    a.textContent = lb; a.setAttribute('href', normalizeHref(hr));
     markUnsaved(); pushSnapshot(true); f.remove(); loadNav();
   };
 }
@@ -1472,7 +1483,7 @@ document.getElementById('btn-nav-confirm').onclick = () => {
   const nav = frame.contentDocument.querySelector('.navbar__nav');
   if(!nav) return toast('No navbar found');
   const li = frame.contentDocument.createElement('li');
-  li.innerHTML = `<a href="${href||'#'}" class="navbar__link">${label}</a>`;
+  li.innerHTML = `<a href="${normalizeHref(href)||'#'}" class="navbar__link">${label}</a>`;
   nav.appendChild(li);
   markUnsaved(); pushSnapshot(true);
   document.getElementById('nav-new-label').value = '';
