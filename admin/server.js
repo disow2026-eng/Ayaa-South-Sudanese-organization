@@ -307,7 +307,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   fileFilter: (req, file, cb) =>
-    /\/(image|video)\//i.test(file.mimetype) ? cb(null, true) : cb(new Error('Images and videos only')),
+    /^(image|video)\//i.test(file.mimetype) ? cb(null, true) : cb(new Error('Images and videos only')),
   limits: { fileSize: 500 * 1024 * 1024 }
 });
 
