@@ -300,7 +300,10 @@ app.post('/api/nav-sync', auth, async (req, res) => {
 
 // ── Images ───────────────────────────────────────────────────────
 const storage = multer.diskStorage({
-  destination: SITE_DIR,
+  destination: (req, file, cb) => {
+    fss.mkdirSync(SITE_DIR, { recursive: true });
+    cb(null, SITE_DIR);
+  },
   filename: (req, file, cb) =>
     cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-').toLowerCase())
 });
@@ -311,24 +314,37 @@ const upload = multer({
   limits: { fileSize: 500 * 1024 * 1024 }
 });
 
-app.post('/api/images', auth, (req, res, next) => {
-  upload.single('image')(req, res, err => {
-    if (err) return res.status(400).json({ error: err.message });
+app.post('/api/images', auth, (req, res) => {
+  upload.single('image')(req, res, async err => {
+    if (err) {
+      console.error('Multer error:', err.message);
+      return res.status(400).json({ error: err.message });
+    }
     if (!req.file) return res.status(400).json({ error: 'No file received' });
+    console.log('Uploaded:', req.file.filename, 'to', req.file.path);
     res.json({ name: req.file.filename });
     netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
   });
 });
 
 app.get('/api/images', auth, async (req, res) => {
-  const files = await fs.readdir(SITE_DIR);
-  res.json(files.filter(f => /\.(jpe?g|png|gif|webp|svg|avif|WEBP|mp4|webm|mov|m4v|avi)$/i.test(f)));
+  try {
+    const files = await fs.readdir(SITE_DIR);
+    res.json(files.filter(f => /\.(jpe?g|png|gif|webp|svg|avif|WEBP|mp4|webm|mov|m4v|avi)$/i.test(f)));
+  } catch (err) {
+    console.error('readdir error:', err.message, 'SITE_DIR:', SITE_DIR);
+    res.status(500).json({ error: err.message, SITE_DIR });
+  }
 });
 
 app.delete('/api/images/:name', auth, async (req, res) => {
-  await fs.unlink(path.join(SITE_DIR, path.basename(req.params.name)));
-  res.json({ ok: true });
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  try {
+    await fs.unlink(path.join(SITE_DIR, path.basename(req.params.name)));
+    res.json({ ok: true });
+    netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // Manual deploy trigger from admin UI
