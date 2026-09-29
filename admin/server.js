@@ -299,16 +299,8 @@ app.post('/api/nav-sync', auth, async (req, res) => {
 });
 
 // ── Images ───────────────────────────────────────────────────────
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    fss.mkdirSync(SITE_DIR, { recursive: true });
-    cb(null, SITE_DIR);
-  },
-  filename: (req, file, cb) =>
-    cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-').toLowerCase())
-});
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   fileFilter: (req, file, cb) =>
     /^(image|video)\//i.test(file.mimetype) ? cb(null, true) : cb(new Error('Images and videos only')),
   limits: { fileSize: 500 * 1024 * 1024 }
@@ -321,9 +313,17 @@ app.post('/api/images', auth, (req, res) => {
       return res.status(400).json({ error: err.message });
     }
     if (!req.file) return res.status(400).json({ error: 'No file received' });
-    console.log('Uploaded:', req.file.filename, 'to', req.file.path);
-    res.json({ name: req.file.filename });
-    netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
+    try {
+      const filename = Date.now() + '-' + req.file.originalname.replace(/\s+/g, '-').toLowerCase();
+      const destPath = path.join(SITE_DIR, filename);
+      await fs.writeFile(destPath, req.file.buffer);
+      console.log('Saved:', destPath);
+      res.json({ name: filename });
+      netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
+    } catch (writeErr) {
+      console.error('Write error:', writeErr.message, '| SITE_DIR:', SITE_DIR);
+      res.status(500).json({ error: writeErr.message, SITE_DIR });
+    }
   });
 });
 
