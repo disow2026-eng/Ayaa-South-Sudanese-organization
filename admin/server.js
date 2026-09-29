@@ -311,10 +311,13 @@ const upload = multer({
   limits: { fileSize: 500 * 1024 * 1024 }
 });
 
-app.post('/api/images', auth, upload.single('image'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'No file received' });
-  res.json({ name: req.file.filename });
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+app.post('/api/images', auth, (req, res, next) => {
+  upload.single('image')(req, res, err => {
+    if (err) return res.status(400).json({ error: err.message });
+    if (!req.file) return res.status(400).json({ error: 'No file received' });
+    res.json({ name: req.file.filename });
+    netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
+  });
 });
 
 app.get('/api/images', auth, async (req, res) => {
