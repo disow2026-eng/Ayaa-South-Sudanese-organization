@@ -17,78 +17,106 @@ const CFG_FILE = path.join(__dirname, 'config.json');
 
 // ── Config ──────────────────────────────────────────────────────
 let config = { password: 'ayaa2024' };
-
 async function loadConfig() {
-  try {
-    const raw = await fs.readFile(CFG_FILE, 'utf8');
-    config = { ...config, ...JSON.parse(raw) };
-  } catch { /* first run */ }
+  try { config = { ...config, ...JSON.parse(await fs.readFile(CFG_FILE, 'utf8')) }; } catch {}
 }
 async function saveConfig() {
   await fs.writeFile(CFG_FILE, JSON.stringify(config, null, 2));
 }
 
+// ── GitHub auto-commit (keeps content safe across Railway restarts) ──
+// Set GITHUB_TOKEN in Railway environment variables
+const GH_TOKEN = process.env.GITHUB_TOKEN;
+const GH_REPO  = 'disow2026-eng/Ayaa-South-Sudanese-organization';
+
+async function githubCommit(filePath, content) {
+  if (!GH_TOKEN) { console.warn('GITHUB_TOKEN not set — skipping GitHub commit'); return; }
+  const relPath = path.relative(SITE_DIR, filePath).replace(/\\/g, '/');
+  const encoded = Buffer.from(content).toString('base64');
+
+  // Get current file SHA (needed to update existing files)
+  const sha = await new Promise(resolve => {
+    const req = https.request({
+      hostname: 'api.github.com',
+      path: `/repos/${GH_REPO}/contents/${relPath}`,
+      headers: {
+        Authorization: `Bearer ${GH_TOKEN}`,
+        'User-Agent': 'ayaa-admin',
+        Accept: 'application/vnd.github.v3+json'
+      }
+    }, res => {
+      let b = '';
+      res.on('data', d => b += d);
+      res.on('end', () => { try { resolve(JSON.parse(b).sha); } catch { resolve(undefined); } });
+    });
+    req.on('error', () => resolve(undefined));
+    req.end();
+  });
+
+  const body = JSON.stringify({
+    message: `[skip ci] admin: update ${relPath}`,
+    content: encoded,
+    ...(sha ? { sha } : {})
+  });
+
+  await new Promise(resolve => {
+    const req = https.request({
+      hostname: 'api.github.com',
+      path: `/repos/${GH_REPO}/contents/${relPath}`,
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${GH_TOKEN}`,
+        'User-Agent': 'ayaa-admin',
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body)
+      }
+    }, res => {
+      let b = '';
+      res.on('data', d => b += d);
+      res.on('end', () => {
+        if (res.statusCode >= 300) console.error('GitHub commit failed:', res.statusCode, b);
+        else console.log('GitHub: saved', relPath);
+        resolve();
+      });
+    });
+    req.on('error', err => { console.error('GitHub error:', err.message); resolve(); });
+    req.write(body);
+    req.end();
+  });
+}
+
 // ── Netlify deploy ───────────────────────────────────────────────
-// Set these in Railway environment variables:
-//   NETLIFY_TOKEN   — Netlify personal access token
-//   NETLIFY_SITE_ID — Netlify site ID
 async function netlifyDeploy() {
   const token  = process.env.NETLIFY_TOKEN;
   const siteId = process.env.NETLIFY_SITE_ID;
-  if (!token || !siteId) {
-    console.warn('Netlify deploy skipped — NETLIFY_TOKEN or NETLIFY_SITE_ID not set');
-    return;
-  }
-
+  if (!token || !siteId) { console.warn('Netlify deploy skipped — env vars not set'); return; }
   console.log('Packaging site for Netlify deploy...');
-
-  // Build zip in memory
   const zipBuffer = await new Promise((resolve, reject) => {
     const archive = archiver('zip', { zlib: { level: 6 } });
     const chunks  = [];
     archive.on('data',  c => chunks.push(c));
     archive.on('end',   () => resolve(Buffer.concat(chunks)));
     archive.on('error', reject);
-
-    // Add all site files except admin/, .bak, .deleted, .git, node_modules
     archive.glob('**/*', {
       cwd: SITE_DIR,
-      ignore: [
-        'admin/**',
-        '**/*.bak',
-        '**/*.deleted',
-        '.git/**',
-        'node_modules/**',
-        '*.nosync'
-      ],
+      ignore: ['admin/**', '**/*.bak', '**/*.deleted', '.git/**', 'node_modules/**', '*.nosync'],
       dot: false
     });
-
     archive.finalize();
   });
-
-  // POST zip to Netlify file-based deploy API
   await new Promise((resolve, reject) => {
     const req = https.request({
       hostname: 'api.netlify.com',
-      path:     `/api/v1/sites/${siteId}/deploys`,
-      method:   'POST',
-      headers:  {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type':  'application/zip',
-        'Content-Length': zipBuffer.length
-      }
+      path: `/api/v1/sites/${siteId}/deploys`,
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/zip', 'Content-Length': zipBuffer.length }
     }, res => {
       let body = '';
       res.on('data', d => (body += d));
       res.on('end', () => {
-        if (res.statusCode < 300) {
-          console.log('Netlify deploy triggered successfully');
-          resolve();
-        } else {
-          console.error('Netlify deploy failed:', res.statusCode, body);
-          reject(new Error(`Netlify ${res.statusCode}: ${body}`));
-        }
+        if (res.statusCode < 300) { console.log('Netlify deploy OK'); resolve(); }
+        else reject(new Error(`Netlify ${res.statusCode}: ${body}`));
       });
     });
     req.on('error', reject);
@@ -107,20 +135,6 @@ app.use(session({
   cookie: { maxAge: 24 * 60 * 60 * 1000 }
 }));
 
-// Debug route — remove after fixing
-app.get('/debug', async (req, res) => {
-  const fssSync = require('fs');
-  const adminPublic = path.join(__dirname, 'public');
-  const info = {
-    __dirname,
-    SITE_DIR,
-    adminPublicExists: fssSync.existsSync(adminPublic),
-    adminIndexExists:  fssSync.existsSync(path.join(adminPublic, 'index.html')),
-    siteFiles: fssSync.existsSync(SITE_DIR) ? fssSync.readdirSync(SITE_DIR).slice(0, 20) : 'NOT FOUND'
-  };
-  res.json(info);
-});
-
 // Serve admin UI
 const ADMIN_HTML = path.join(__dirname, 'public', 'index.html');
 app.get('/admin',  (req, res) => res.sendFile(ADMIN_HTML));
@@ -137,8 +151,7 @@ app.use('/', express.static(SITE_DIR, { index: 'index.html' }));
 const auth = (req, res, next) =>
   req.session.authenticated ? next() : res.status(401).json({ error: 'Unauthorized' });
 
-app.get('/api/auth', (req, res) =>
-  res.json({ ok: !!req.session.authenticated }));
+app.get('/api/auth', (req, res) => res.json({ ok: !!req.session.authenticated }));
 
 app.post('/api/login', async (req, res) => {
   await loadConfig();
@@ -150,10 +163,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.post('/api/logout', (req, res) => {
-  req.session.destroy();
-  res.json({ ok: true });
-});
+app.post('/api/logout', (req, res) => { req.session.destroy(); res.json({ ok: true }); });
 
 // ── Pages ────────────────────────────────────────────────────────
 app.get('/api/pages', auth, async (req, res) => {
@@ -167,28 +177,23 @@ app.get('/api/page/:name', auth, async (req, res) => {
   res.json({ content });
 });
 
-// Check if a backup exists
 app.get('/api/page/:name/has-backup', auth, async (req, res) => {
   const bakFile = path.join(SITE_DIR, path.basename(req.params.name)) + '.bak';
   try { await fs.access(bakFile); res.json({ hasBak: true }); }
   catch { res.json({ hasBak: false }); }
 });
 
-// Restore page from .bak backup
 app.post('/api/page/:name/restore', auth, async (req, res) => {
   const file    = path.join(SITE_DIR, path.basename(req.params.name));
   const bakFile = file + '.bak';
-  try {
-    await fs.access(bakFile);
-  } catch {
-    return res.status(404).json({ error: 'No backup found for this page' });
-  }
-  // Save current version as .bak so restore is reversible
+  try { await fs.access(bakFile); }
+  catch { return res.status(404).json({ error: 'No backup found' }); }
   try { await fs.copyFile(file, file + '.restored-bak'); } catch {}
   await fs.copyFile(bakFile, file);
   const content = await fs.readFile(file, 'utf8');
   res.json({ ok: true, content });
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  githubCommit(file, content).catch(e => console.error('GitHub error:', e.message));
+  netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
 });
 
 app.post('/api/page/:name', auth, async (req, res) => {
@@ -197,7 +202,9 @@ app.post('/api/page/:name', auth, async (req, res) => {
     try { await fs.copyFile(file, file + '.bak'); } catch {}
     await fs.writeFile(file, req.body.content, 'utf8');
     res.json({ ok: true });
-    netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+    // Save to GitHub so content survives Railway restarts
+    githubCommit(file, req.body.content).catch(e => console.error('GitHub error:', e.message));
+    netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
   } catch (err) {
     console.error('Save error:', err);
     res.status(500).json({ error: err.message });
@@ -263,18 +270,19 @@ app.post('/api/page-new', auth, async (req, res) => {
 </body>
 </html>`);
   }
+  const content = await fs.readFile(dest, 'utf8');
   res.json({ name: safeName });
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  githubCommit(dest, content).catch(e => console.error('GitHub error:', e.message));
+  netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
 });
 
 app.delete('/api/page/:name', auth, async (req, res) => {
   const file = path.join(SITE_DIR, path.basename(req.params.name));
   await fs.rename(file, file + '.deleted');
   res.json({ ok: true });
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
 });
 
-// Sync nav across all pages
 app.post('/api/nav-sync', auth, async (req, res) => {
   const { navHTML } = req.body;
   const files = await fs.readdir(SITE_DIR);
@@ -291,11 +299,12 @@ app.post('/api/nav-sync', auth, async (req, res) => {
     if (content !== before) {
       try { await fs.copyFile(file, file + '.bak'); } catch {}
       await fs.writeFile(file, content, 'utf8');
+      githubCommit(file, content).catch(e => console.error('GitHub error:', e.message));
       updated.push(page);
     }
   }
   res.json({ ok: true, updated });
-  netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+  netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
 });
 
 // ── Images ───────────────────────────────────────────────────────
@@ -308,21 +317,18 @@ const upload = multer({
 
 app.post('/api/images', auth, (req, res) => {
   upload.single('image')(req, res, async err => {
-    if (err) {
-      console.error('Multer error:', err.message);
-      return res.status(400).json({ error: err.message });
-    }
+    if (err) return res.status(400).json({ error: err.message });
     if (!req.file) return res.status(400).json({ error: 'No file received' });
     try {
       const filename = Date.now() + '-' + req.file.originalname.replace(/\s+/g, '-').toLowerCase();
       const destPath = path.join(SITE_DIR, filename);
       await fs.writeFile(destPath, req.file.buffer);
-      console.log('Saved:', destPath);
+      console.log('Image saved:', filename);
       res.json({ name: filename });
       netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
     } catch (writeErr) {
-      console.error('Write error:', writeErr.message, '| SITE_DIR:', SITE_DIR);
-      res.status(500).json({ error: writeErr.message, SITE_DIR });
+      console.error('Image write error:', writeErr.message);
+      res.status(500).json({ error: writeErr.message });
     }
   });
 });
@@ -332,8 +338,7 @@ app.get('/api/images', auth, async (req, res) => {
     const files = await fs.readdir(SITE_DIR);
     res.json(files.filter(f => /\.(jpe?g|png|gif|webp|svg|avif|WEBP|mp4|webm|mov|m4v|avi)$/i.test(f)));
   } catch (err) {
-    console.error('readdir error:', err.message, 'SITE_DIR:', SITE_DIR);
-    res.status(500).json({ error: err.message, SITE_DIR });
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -341,20 +346,15 @@ app.delete('/api/images/:name', auth, async (req, res) => {
   try {
     await fs.unlink(path.join(SITE_DIR, path.basename(req.params.name)));
     res.json({ ok: true });
-    netlifyDeploy().catch(err => console.error('Deploy error:', err.message));
+    netlifyDeploy().catch(e => console.error('Deploy error:', e.message));
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Manual deploy trigger from admin UI
 app.post('/api/deploy', auth, async (req, res) => {
-  try {
-    await netlifyDeploy();
-    res.json({ ok: true });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  try { await netlifyDeploy(); res.json({ ok: true }); }
+  catch (err) { res.status(500).json({ error: err.message }); }
 });
 
 // ── Settings ─────────────────────────────────────────────────────
@@ -375,6 +375,7 @@ loadConfig().then(() => {
   app.listen(PORT, () => {
     console.log(`\n✅  AYAA Admin Panel  →  http://localhost:${PORT}/admin`);
     console.log(`    Default password : ${config.password}`);
-    console.log(`    Site folder      : ${SITE_DIR}\n`);
+    console.log(`    Site folder      : ${SITE_DIR}`);
+    console.log(`    GitHub sync      : ${GH_TOKEN ? 'enabled ✓' : 'disabled (set GITHUB_TOKEN)'}\n`);
   });
 });
